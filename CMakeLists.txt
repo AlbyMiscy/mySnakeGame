@@ -5,18 +5,16 @@ set(CMAKE_C_COMPILER "clang"  CACHE STRING "" FORCE)
 set(CMAKE_CXX_COMPILER "clang++" CACHE STRING "" FORCE)
 
 project(CMakeSFMLProject LANGUAGES CXX)
-
-# Output eseguibili nella build dir
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-# SFML 3.0 via FetchContent (niente esempi/test)
+# SFML 3.0 via FetchContent (senza esempi/test)
 include(FetchContent)
 FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG        3.0.0
-    GIT_SHALLOW    ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
+  GIT_REPOSITORY https://github.com/SFML/SFML.git
+  GIT_TAG        3.0.0
+  GIT_SHALLOW    ON
+  EXCLUDE_FROM_ALL
+  SYSTEM
 )
 set(SFML_BUILD_EXAMPLES   OFF CACHE BOOL "" FORCE)
 set(SFML_BUILD_TEST_SUITE OFF CACHE BOOL "" FORCE)
@@ -25,29 +23,31 @@ FetchContent_MakeAvailable(SFML)
 find_package(Threads REQUIRED)
 
 # --- Steps del gioco ---
-set(STEPS
-    step01
-)
+set(STEPS step01)
 
 foreach(step IN LISTS STEPS)
-    # Sorgenti dello step (ricorsivo)
-    file(GLOB_RECURSE SOURCES "${step}/*.cpp")
+  file(GLOB_RECURSE CPP_SOURCES
+    "${step}/src/*.cpp"
+    "${step}/functionHandler/**/*.cpp"
+  )
+  file(GLOB_RECURSE HDR_SOURCES "${step}/headers/*.hpp")
 
-    # Target con lo stesso nome della cartella (es. step01)
-    add_executable(${step} ${SOURCES})
+  add_executable(${step} ${CPP_SOURCES} ${HDR_SOURCES})
 
-    # C++17 "puro" per il target
-    target_compile_features(${step} PRIVATE cxx_std_17)
-    set_property(TARGET ${step} PROPERTY CXX_EXTENSIONS OFF)
+  # C++17 "puro"
+  target_compile_features(${step} PRIVATE cxx_std_17)
+  set_property(TARGET ${step} PROPERTY CXX_EXTENSIONS OFF)
 
-    # Include della cartella dello step
-    target_include_directories(${step} PRIVATE ${step})
+  # include path dello step
+  target_include_directories(${step} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/${step}/headers
+  )
 
-    # Link a SFML 3 e Threads
-    target_link_libraries(${step} PRIVATE
-        SFML::Graphics
-        SFML::Window
-        SFML::System
-        Threads::Threads
-    )
+  # link SFML 3 + Threads
+  target_link_libraries(${step} PRIVATE
+    SFML::Graphics
+    SFML::Window
+    SFML::System
+    Threads::Threads
+  )
 endforeach()
