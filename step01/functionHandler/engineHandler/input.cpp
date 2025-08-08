@@ -6,9 +6,37 @@ void Engine::input(){
                 window.close();
             },
             [this](const sf::Event::KeyPressed& e) {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Escape)) {
+                switch (e.scancode)
+                {
+                case sf::Keyboard::Scancode::Escape:
                     window.close();
+                    return;
+                case sf::Keyboard::Scancode::Up:
+                    addDirection(Direction::UP);
+                    break; 
+                case sf::Keyboard::Scancode::Down:
+                    addDirection(Direction::DOWN);
+                    break; 
+                case sf::Keyboard::Scancode::Left:
+                    addDirection(Direction::LEFT);
+                    break; 
+                case sf::Keyboard::Scancode::Right:
+                    addDirection(Direction::RIGHT);
+                    break; 
+                default:
+                    break;
                 }
             }
         );
+}
+
+void Engine::addDirection(int newDirection){
+    if(direction.empty()){
+        direction.emplace_back(newDirection);
+    }
+    else{
+        if(direction.back() != newDirection){
+            direction.emplace_back(newDirection);
+        }
+    }
 }

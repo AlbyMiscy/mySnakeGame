@@ -45,3 +45,6 @@ CMakeUserPresets.json
 
 # Log o temporanei vari
 *.log
+
+# debug 
+.vscode
