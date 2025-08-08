@@ -11,7 +11,9 @@ Engine::Engine(){
 
     timeSinceLastMove = Time::Zero;
 
+    sectionToAdd = 0;
     newSnake();
+    moveFruit();
 }
 
 void Engine::run(){

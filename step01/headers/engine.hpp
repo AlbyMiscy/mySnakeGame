@@ -2,6 +2,7 @@
 #define SNAKE_ENGINE_HPP
 
 #include "snake.hpp"
+#include "fruit.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <vector>
@@ -19,12 +20,18 @@ private:
     RenderWindow window;
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
-    
+   
     // Snake
     vector<Snake> snake;
+    
     int snakeDirection;
     deque<int> direction; // queue for the direction key pressed
     int speed;
+    int sectionToAdd; // how many sections to add to the snake
+
+    // Fruit
+    Fruit fruit;
+
     Time timeSinceLastMove;
 
 public:
@@ -40,6 +47,8 @@ public:
 
     void newSnake();
     void addSnakeSection();
+
+    void moveFruit();
 
     // main loop
     void run();

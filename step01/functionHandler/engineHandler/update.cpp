@@ -36,6 +36,11 @@ void Engine::update(){
             direction.pop_front();
         }
 
+        if(sectionToAdd){
+            addSnakeSection();
+            sectionToAdd--;
+        }
+
         // Update the snake's head position
         switch (snakeDirection)
         {
@@ -66,6 +71,13 @@ void Engine::update(){
         // run snake section update function
         for(auto & s : snake){
             s.update();
+        }
+
+        // Collision detection - Fruit
+        if(snake[0].getShape().getGlobalBounds().findIntersection(fruit.getSprite().getGlobalBounds())){
+            sectionToAdd += 4;
+            speed++;
+            moveFruit();
         }
 
         // Reset the last move timer
