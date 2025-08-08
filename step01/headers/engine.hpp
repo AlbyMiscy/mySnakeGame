@@ -1,8 +1,10 @@
 #ifndef SNAKE_ENGINE_HPP
 #define SNAKE_ENGINE_HPP
 
+#include "snake.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <vector>
 
 using namespace sf;
 using namespace std;
@@ -16,6 +18,9 @@ private:
     RenderWindow window;
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
+    
+    // Snake
+    vector<Snake> snake;
 
 public:
     Engine();
@@ -23,6 +28,9 @@ public:
     void input(); 
     
     void draw();
+
+    void newSnake();
+    void addSnakeSection();
 
     // main loop
     void run();
