@@ -1,33 +1,48 @@
 #include "engine.hpp"
 
-void Engine::input(){
+void Engine::input() {
     window.handleEvents(
-            [this](const sf::Event::Closed&){
-                window.close();
-            },
-            [this](const sf::Event::KeyPressed& e) {
-                switch (e.scancode)
-                {
+        [this](const sf::Event::Closed&) {
+            window.close();
+        },
+
+        [this](const sf::Event::KeyPressed& e) {
+            if (currentGameState == GameState::GAMEOVER) {
+                if (e.scancode == sf::Keyboard::Scancode::Enter) {
+                    startGame();
+                }
+            }
+
+            switch (e.scancode) {
                 case sf::Keyboard::Scancode::Escape:
                     window.close();
                     return;
+
+                case sf::Keyboard::Scancode::P:
+                    togglePause();
+                    break;
+
                 case sf::Keyboard::Scancode::Up:
                     addDirection(Direction::UP);
-                    break; 
+                    break;
+
                 case sf::Keyboard::Scancode::Down:
                     addDirection(Direction::DOWN);
-                    break; 
+                    break;
+
                 case sf::Keyboard::Scancode::Left:
                     addDirection(Direction::LEFT);
-                    break; 
+                    break;
+
                 case sf::Keyboard::Scancode::Right:
                     addDirection(Direction::RIGHT);
-                    break; 
+                    break;
+
                 default:
                     break;
-                }
             }
-        );
+        }
+    );
 }
 
 void Engine::addDirection(int newDirection){

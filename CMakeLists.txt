@@ -23,7 +23,9 @@ FetchContent_MakeAvailable(SFML)
 find_package(Threads REQUIRED)
 
 # --- Steps del gioco ---
-set(STEPS step01)
+set(STEPS 
+    step01
+    step02)
 
 foreach(step IN LISTS STEPS)
   file(GLOB_RECURSE CPP_SOURCES

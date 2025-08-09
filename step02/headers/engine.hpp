@@ -34,21 +34,30 @@ private:
 
     Time timeSinceLastMove;
 
+    int currentGameState; 
+    int lastGameState;
+
 public:
     enum Direction { UP, RIGHT, DOWN, LEFT };
+    enum GameState { RUNNING, PAUSED, GAMEOVER };
 
     Engine();
 
-    void input(); 
-    void addDirection(int newDirection);
-    void update();
+    void startGame();
     
+    void input(); 
+    void update();
     void draw();
-
+    
+    void addDirection(int newDirection);
+    
     void newSnake();
     void addSnakeSection();
 
     void moveFruit();
+
+    void togglePause();
+
 
     // main loop
     void run();
