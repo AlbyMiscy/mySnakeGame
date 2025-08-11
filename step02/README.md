@@ -15,3 +15,10 @@
 > Questa impostazione è fondamentale per permettere all’editor di utilizzare le stesse opzioni di compilazione di CMake, garantendo il riconoscimento corretto di include, costanti, macro e simboli del progetto.
 > 
 > **Nota**: un utente che scarica il gioco per eseguirlo o compilarlo **non deve effettuare questa configurazione**: è richiesta solo agli sviluppatori per avere il supporto completo dell’editor.
+> 
+> Se si vuole modificare il progetto è necessario eseguire i seguenti comandi:
+> ```bash
+> cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+> cmake --build build -j
+> ```
+> Dopo questo, in `/build` si potrà visualizzare il file `compile_commands.js` con tutti i comandi reali usati per compilare.

@@ -3,9 +3,9 @@
 // initial snake created at the start
 void Engine::newSnake() {
     snake.clear();
-    snake.emplace_back(Vector2f(100,100));
-    snake.emplace_back(Vector2f(80,100));
-    snake.emplace_back(Vector2f(60,100));
+    snake.emplace_back(snakeStartPosition);
+    snake.emplace_back(Vector2f(snakeStartPosition.x - 20, snakeStartPosition.y));
+    snake.emplace_back(Vector2f(snakeStartPosition.x - 40, snakeStartPosition.y));
 }
 
 void Engine::addSnakeSection (){

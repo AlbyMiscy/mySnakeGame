@@ -87,6 +87,13 @@ void Engine::update(){
             }
         }
         
+        // Collision detection - Walls
+        for(auto & wall : wallSection){
+            if(snake[0].getShape().getGlobalBounds().findIntersection(wall.getShape().getGlobalBounds())){
+                currentGameState = GAMEOVER;
+            }
+        }
+        
 
         // Reset the last move timer
         timeSinceLastMove = Time::Zero;

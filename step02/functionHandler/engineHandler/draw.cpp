@@ -3,6 +3,11 @@
 void Engine::draw(){
     window.clear(Color::Black);
 
+    // Draw walls
+    for(auto & w : wallSection){
+        window.draw(w.getShape());
+    }
+
     // Draw fruit section
     window.draw(fruit.getSprite());
 

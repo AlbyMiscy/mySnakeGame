@@ -3,10 +3,12 @@
 
 #include "snake.hpp"
 #include "fruit.hpp"
+#include "wall.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <vector>
 #include <deque>
+#include <fstream>
 
 using namespace sf;
 using namespace std;
@@ -18,6 +20,7 @@ class Engine {
 private:
     // Window
     RenderWindow window;
+    View camera;  // Telecamera per seguire lo snake
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
    
@@ -31,6 +34,19 @@ private:
 
     // Fruit
     Fruit fruit;
+
+    // Wall
+    vector<Wall> wallSection;
+    int currentLevel;
+    int maxLevels;
+    
+    vector<string> levels;
+    
+    // Snake start position from level
+    Vector2f snakeStartPosition;
+    
+    // Map dimensions
+    Vector2u mapSize; // Dimensioni della mappa in pixel
 
     Time timeSinceLastMove;
 
@@ -55,6 +71,12 @@ public:
     void addSnakeSection();
 
     void moveFruit();
+
+    void checkLevelFiles();
+    void loadLevel(int levelNumber);
+
+    void updateCamera(); // Aggiorna la posizione della telecamera
+    void initializeCamera(); // Inizializza la telecamera
 
     void togglePause();
 
