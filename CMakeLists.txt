@@ -23,7 +23,9 @@ FetchContent_MakeAvailable(SFML)
 find_package(Threads REQUIRED)
 
 # --- Steps del gioco ---
-set(STEPS step01)
+set(STEPS 
+    step01
+    step02)
 
 foreach(step IN LISTS STEPS)
   file(GLOB_RECURSE CPP_SOURCES
@@ -51,3 +53,14 @@ foreach(step IN LISTS STEPS)
     Threads::Threads
   )
 endforeach()
+
+file(COPY ${CMAKE_SOURCE_DIR}/resources 
+     DESTINATION ${CMAKE_BINARY_DIR})
+
+# Aggiorna la cartella resources ad ogni build
+add_custom_target(copy_resources ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/resources
+    ${CMAKE_BINARY_DIR}/resources
+    COMMENT "Copying resources to build directory"
+)
