@@ -265,7 +265,7 @@ cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build build -j
 
 # Esecuzione - ENTRAMBI i modi funzionano!
-./build/step02          # Dalla directory build/
+./step02                # Dalla directory build/
 # OPPURE  
 ./build/step02          # Dalla directory principale
 ```
