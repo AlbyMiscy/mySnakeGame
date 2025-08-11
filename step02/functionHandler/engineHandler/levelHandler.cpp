@@ -40,10 +40,9 @@ void Engine::loadLevel(int levelNumber){
     wallSection.clear();
 
     const auto size = img.getSize(); 
-    mapSize = size; // Memorizza le dimensioni della mappa
+    mapSize = size; 
     
     const sf::Color BLACK  = sf::Color(0, 0, 0);
-    const sf::Color YELLOW = sf::Color(255, 255, 0);
     const sf::Color RED    = sf::Color(255, 0, 0);
     const sf::Color BLUE   = sf::Color(0, 0, 255);
 
