@@ -8,7 +8,7 @@ Engine::Engine() : mainFont([]() {
         std::cerr << "Warning: Could not load custom font, using default" << std::endl;
     }
     return f; 
-}()), titleText(mainFont) {
+}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont) {
     window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
     window.setFramerateLimit(FPS);
     maxLevels = 0;
@@ -23,6 +23,8 @@ void Engine::startGame(){
     timeSinceLastMove = Time::Zero;
     sectionToAdd = 0;
     direction.clear();
+    fruitEatenThisLevel = 0;
+    fruitEatenTotal = 0;
     currentLevel = 1;
     loadLevel(currentLevel);
     newSnake();
@@ -30,6 +32,8 @@ void Engine::startGame(){
     moveFruit();
     currentGameState = GameState::RUNNING;
     lastGameState = currentGameState;
+    updateTextContent(); // Update text's content with start values
+    fruitEatenText.setString("fruit " + to_string(fruitEatenTotal));
 }
 
 void Engine::run(){
@@ -57,3 +61,4 @@ void Engine::run(){
         draw();
     }
 }
+

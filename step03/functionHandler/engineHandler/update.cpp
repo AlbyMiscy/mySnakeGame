@@ -75,6 +75,10 @@ void Engine::update(){
 
         // Collision detection - Fruit
         if(snake[0].getShape().getGlobalBounds().findIntersection(fruit.getSprite().getGlobalBounds())){
+            fruitEatenThisLevel += 1;
+            fruitEatenTotal += 1;
+            updateTextContent(); // Aggiorna il contenuto dei testi
+
             sectionToAdd += 4;
             speed++;
             moveFruit();

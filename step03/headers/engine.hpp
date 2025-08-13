@@ -22,7 +22,7 @@ class Engine {
 private:
     // Window
     RenderWindow window;
-    View camera;  // Telecamera per seguire lo snake
+    View camera;  // cam that follow the snake
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
 
@@ -49,6 +49,8 @@ private:
 
     Font mainFont;
     Text titleText;
+    Text fruitEatenText;
+    Text currentLevelText;
     
     // Snake start position from level
     Vector2f snakeStartPosition;
@@ -91,6 +93,7 @@ public:
     void setupText(Text *textItem, const Font &font, const string &value, int size, Color color);
     void fixText();
     void updateTextPosition(); 
+    void updateTextContent(); // Aggiorna il contenuto dei testi con i valori correnti
 
     // main loop
     void run();

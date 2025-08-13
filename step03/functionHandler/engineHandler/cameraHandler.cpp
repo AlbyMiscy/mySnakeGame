@@ -1,7 +1,6 @@
 #include "engine.hpp"
 
 void Engine::initializeCamera() {
-
     camera.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
     
     if (!snake.empty()) {
@@ -12,6 +11,7 @@ void Engine::initializeCamera() {
     
     window.setView(camera);
     
+    // Update text's start position
     updateTextPosition();
 }
 
@@ -39,6 +39,7 @@ void Engine::updateCamera() {
         camera.setCenter(newCenter);
         window.setView(camera);
         
+        // Update text's position to follow the camera
         updateTextPosition();
     }
 }
