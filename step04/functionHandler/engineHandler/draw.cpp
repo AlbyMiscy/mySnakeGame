@@ -20,6 +20,12 @@ void Engine::draw(){
     window.draw(titleText);
     window.draw(currentLevelText);
     window.draw(fruitEatenText);
+    
+    // Draw Game Over text only when in GAMEOVER state
+    if(currentGameState == GameState::GAMEOVER) {
+        window.draw(gameOver);
+        window.draw(pressEnterText);
+    }
 
     window.display();
 }

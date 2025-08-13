@@ -46,11 +46,13 @@ private:
     int maxLevels;
     
     vector<string> levels;
-
+    
     Font mainFont;
     Text titleText;
     Text fruitEatenText;
     Text currentLevelText;
+    Text gameOver;
+    Text pressEnterText;
     
     // Snake start position from level
     Vector2f snakeStartPosition;

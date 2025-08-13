@@ -8,7 +8,7 @@ Engine::Engine() : mainFont([]() {
         std::cerr << "Warning: Could not load custom font, using default" << std::endl;
     }
     return f; 
-}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont) {
+}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont) {
     window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
     window.setFramerateLimit(FPS);
     maxLevels = 0;

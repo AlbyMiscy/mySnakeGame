@@ -16,6 +16,8 @@ void Engine::fixText(){
 
     setupText(&currentLevelText, mainFont, "level 1", 15, Color::Blue);
     setupText(&fruitEatenText, mainFont, "fruit 0", 15, Color::Blue);
+    setupText(&gameOver, mainFont, "GAME OVER", 72, Color::Yellow);
+    setupText(&pressEnterText, mainFont, "Press ENTER to restart", 20, Color::White);
 }
 
 void Engine::updateTextPosition(){
@@ -37,6 +39,18 @@ void Engine::updateTextPosition(){
     float fruitEatenX = cameraCenter.x - (WINDOW_WIDTH / 2.0f) + leftMargin;
     float fruitEatenY = cameraCenter.y - (WINDOW_HEIGHT / 2.0f) + 50.0f; 
     fruitEatenText.setPosition(Vector2f(fruitEatenX, fruitEatenY));
+
+    // Game Over
+    FloatRect gameOverBounds = gameOver.getLocalBounds();
+    float gameOverX = cameraCenter.x - (gameOverBounds.size.x / 2.0f);
+    float gameOverY = cameraCenter.y - (gameOverBounds.size.y / 2.0f);
+    gameOver.setPosition(Vector2f(gameOverX, gameOverY));
+    
+    // Press Enter Text
+    FloatRect pressEnterBounds = pressEnterText.getLocalBounds();
+    float pressEnterX = cameraCenter.x - (pressEnterBounds.size.x / 2.0f);
+    float pressEnterY = gameOverY + gameOverBounds.size.y + 20.0f; // 20px di distanza
+    pressEnterText.setPosition(Vector2f(pressEnterX, pressEnterY));
 }
 
 void Engine::updateTextContent(){
