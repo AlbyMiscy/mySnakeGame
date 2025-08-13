@@ -109,3 +109,73 @@ void Engine::drawMenu(){
     
     window.display();
 }
+
+void Engine::setupPausePopup(){
+    // Setup overlay (semi-transparent background)
+    pauseOverlay.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    pauseOverlay.setFillColor(Color(0, 0, 0, 128)); // Black with 50% transparency
+    
+    // Setup popup box
+    pauseBox.setSize(Vector2f(500, 300));
+    pauseBox.setFillColor(Color(50, 50, 50, 220)); // Dark gray, almost opaque
+    pauseBox.setOutlineThickness(3);
+    pauseBox.setOutlineColor(Color::White);
+    
+    // Setup texts
+    setupText(&pauseTitle, mainFont, "PAUSED", 48, Color::Yellow);
+    setupText(&pauseInstruction1, mainFont, "Press P to Resume", 24, Color::White);
+    setupText(&pauseInstruction2, mainFont, "Press ESC to Quit", 20, Color(200, 200, 200));
+}
+
+void Engine::updatePausePopupPosition(){
+    Vector2f cameraCenter = camera.getCenter();
+    
+    // Position overlay to cover the camera view
+    pauseOverlay.setPosition(Vector2f(
+        cameraCenter.x - (WINDOW_WIDTH / 2.0f),
+        cameraCenter.y - (WINDOW_HEIGHT / 2.0f)
+    ));
+    
+    // Center the popup box
+    Vector2f boxSize = pauseBox.getSize();
+    pauseBox.setPosition(Vector2f(
+        cameraCenter.x - (boxSize.x / 2.0f),
+        cameraCenter.y - (boxSize.y / 2.0f)
+    ));
+    
+    // Position texts inside the box
+    FloatRect pauseTitleBounds = pauseTitle.getLocalBounds();
+    pauseTitle.setPosition(Vector2f(
+        cameraCenter.x - (pauseTitleBounds.size.x / 2.0f),
+        cameraCenter.y - 80.0f
+    ));
+    
+    FloatRect instruction1Bounds = pauseInstruction1.getLocalBounds();
+    pauseInstruction1.setPosition(Vector2f(
+        cameraCenter.x - (instruction1Bounds.size.x / 2.0f),
+        cameraCenter.y + 10.0f
+    ));
+    
+    FloatRect instruction2Bounds = pauseInstruction2.getLocalBounds();
+    pauseInstruction2.setPosition(Vector2f(
+        cameraCenter.x - (instruction2Bounds.size.x / 2.0f),
+        cameraCenter.y + 50.0f
+    ));
+}
+
+void Engine::drawPausePopup(){
+    updatePausePopupPosition();
+    
+    // Draw overlay first (makes background transparent)
+    window.draw(pauseOverlay);
+    
+    // Draw popup box
+    window.draw(pauseBox);
+    
+    // Draw texts
+    window.draw(pauseTitle);
+    window.draw(pauseInstruction1);
+    window.draw(pauseInstruction2);
+    
+    window.display();
+}

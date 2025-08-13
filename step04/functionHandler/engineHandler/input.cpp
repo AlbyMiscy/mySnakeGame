@@ -38,7 +38,7 @@ void Engine::input() {
                     return;
 
                 case sf::Keyboard::Scancode::P:
-                    if (currentGameState == GameState::RUNNING) {
+                    if (currentGameState == GameState::RUNNING || currentGameState == GameState::PAUSED) {
                         togglePause();
                     }
                     break;

@@ -8,13 +8,14 @@ Engine::Engine() : mainFont([]() {
         std::cerr << "Warning: Could not load custom font, using default" << std::endl;
     }
     return f; 
-}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont) {
+}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont), pauseTitle(mainFont), pauseInstruction1(mainFont), pauseInstruction2(mainFont) {
     window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
     window.setFramerateLimit(FPS);
     maxLevels = 0;
     checkLevelFiles();
     currentGameState = GameState::MENU; // Start with menu
     setupMenu();
+    setupPausePopup(); // Setup pause popup elements
     fixText(); 
 }
 
@@ -56,6 +57,9 @@ void Engine::run(){
             input();
             if(currentGameState == GameState::GAMEOVER){
                 draw();
+            } else if(currentGameState == GameState::PAUSED) {
+                draw(); // Draw normal game with transparency effect
+                drawPausePopup(); // Draw pause popup on top
             }
 
             sleep(milliseconds(2)); // sleep so we don't peg the CPU
