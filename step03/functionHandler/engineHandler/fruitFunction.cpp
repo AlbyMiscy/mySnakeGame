@@ -41,4 +41,5 @@ void Engine::moveFruit(){
     }
     while (badLocation);
     fruit.setPosition(newFruitLocation);
+    fruit.randomizeSprite(); // Randomize sprite when fruit moves to new position
 }

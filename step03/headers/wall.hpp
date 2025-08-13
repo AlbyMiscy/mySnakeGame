@@ -15,7 +15,7 @@ public:
     Wall(Vector2f position, Vector2f size);    
 
     RectangleShape getShape();
-    static void loadWallTexture(); // Metodo per caricare la texture una volta
+    static void loadWallTexture(); 
 };
 
 #endif // SNAKE_WALL_HPP
