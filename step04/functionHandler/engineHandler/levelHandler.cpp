@@ -60,3 +60,19 @@ void Engine::loadLevel(int levelNumber){
         }
     }
 }
+
+void Engine::beginNextLevel(){
+    currentLevel += 1;
+    wallSection.clear();
+    direction.clear();
+    speed = 2 + currentLevel;
+    snakeDirection = Direction::RIGHT;
+    sectionToAdd = 0;
+    sectionToAdd = 0;
+    fruitEatenThisLevel = 0;
+
+    loadLevel(currentLevel);
+    newSnake();
+    moveFruit();
+    updateTextContent();
+}

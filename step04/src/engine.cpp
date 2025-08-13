@@ -18,11 +18,13 @@ Engine::Engine() : mainFont([]() {
 }
 
 void Engine::startGame(){
+
     speed = 4;
     snakeDirection = Direction::RIGHT;
     timeSinceLastMove = Time::Zero;
     sectionToAdd = 0;
     direction.clear();
+    wallSection.clear();
     fruitEatenThisLevel = 0;
     fruitEatenTotal = 0;
     currentLevel = 1;
@@ -33,7 +35,6 @@ void Engine::startGame(){
     currentGameState = GameState::RUNNING;
     lastGameState = currentGameState;
     updateTextContent(); // Update text's content with start values
-    fruitEatenText.setString("fruit " + to_string(fruitEatenTotal));
 }
 
 void Engine::run(){

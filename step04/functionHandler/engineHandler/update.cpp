@@ -77,11 +77,21 @@ void Engine::update(){
         if(snake[0].getShape().getGlobalBounds().findIntersection(fruit.getSprite().getGlobalBounds())){
             fruitEatenThisLevel += 1;
             fruitEatenTotal += 1;
-            updateTextContent(); // Aggiorna il contenuto dei testi
+            updateTextContent(); // Update text
 
-            sectionToAdd += 4;
-            speed++;
-            moveFruit();
+            bool beginningNewLevel = false;
+            if(fruitEatenThisLevel >= 10){
+                // Begin the next level
+                if(currentLevel < maxLevels){
+                    beginningNewLevel = true;
+                    beginNextLevel();
+                }
+            }
+            if(!beginningNewLevel){
+                sectionToAdd += 4;
+                speed++;
+                moveFruit();
+            }
         }
         
         // Collision detection - Snake Body

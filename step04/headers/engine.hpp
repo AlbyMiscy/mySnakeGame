@@ -93,7 +93,9 @@ public:
     void setupText(Text *textItem, const Font &font, const string &value, int size, Color color);
     void fixText();
     void updateTextPosition(); 
-    void updateTextContent(); // Aggiorna il contenuto dei testi con i valori correnti
+    void updateTextContent(); 
+
+    void beginNextLevel();
 
     // main loop
     void run();
