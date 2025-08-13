@@ -74,6 +74,14 @@ private:
     Text successInstruction1;
     Text successInstruction2;
     
+    // Direction Arrow elements
+    Texture arrowTexture;
+    Sprite arrowSprite;
+    int currentArrowFrame;            // Current animation frame (0-2)
+    Time arrowAnimationTimer;         // Timer for animation
+    const float ARROW_ANIMATION_SPEED = 0.2f; // Animation speed in seconds
+    const float ARROW_MARGIN = 50.0f; // Distance from camera edge
+    
     // Snake start position from level
     Vector2f snakeStartPosition;
     
@@ -131,6 +139,13 @@ public:
     void setupSuccessLevelPopup();
     void updateSuccessLevelPopupPosition();
     void drawSuccessLevelPopup();
+
+    // Direction Arrow functions
+    void setupDirectionArrow();
+    void updateDirectionArrow();
+    void drawDirectionArrow();
+    Vector2f calculateArrowPosition(Vector2f snakePos, Vector2f fruitPos);
+    float calculateArrowRotation(Vector2f snakePos, Vector2f fruitPos);
 
     void beginNextLevel();
 

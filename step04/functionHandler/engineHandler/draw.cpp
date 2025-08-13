@@ -21,6 +21,9 @@ void Engine::draw(){
     window.draw(currentLevelText);
     window.draw(fruitEatenText);
     
+    // Draw direction arrow (only when fruit is outside camera view)
+    drawDirectionArrow();
+    
     // Draw Game Over text only when in GAMEOVER state
     if(currentGameState == GameState::GAMEOVER) {
         window.draw(gameOver);

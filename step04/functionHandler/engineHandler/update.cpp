@@ -116,4 +116,7 @@ void Engine::update(){
         // Reset the last move timer
         timeSinceLastMove = Time::Zero;
     } // END update snake position
+    
+    // Update direction arrow
+    updateDirectionArrow();
 }
