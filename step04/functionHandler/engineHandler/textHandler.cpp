@@ -195,7 +195,7 @@ void Engine::setupSuccessLevelPopup(){
     
     // Setup texts
     setupText(&successTitle, mainFont, "SUCCESS!", 48, Color::Green);
-    setupText(&successInstruction1, mainFont, "Press C to Continue", 24, Color::White);
+    setupText(&successInstruction1, mainFont, "Press Enter to Continue", 24, Color::White);
     setupText(&successInstruction2, mainFont, "Press ESC to Quit", 20, Color(200, 200, 200));
 }
 

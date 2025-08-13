@@ -80,7 +80,7 @@ void Engine::update(){
             updateTextContent(); // Update text
 
             bool beginningNewLevel = false;
-            if(fruitEatenThisLevel >= 1){
+            if(fruitEatenThisLevel >= 10){
                 // Check if there are more levels
                 if(currentLevel < maxLevels){
                     beginningNewLevel = true;

@@ -29,7 +29,7 @@ void Engine::input() {
 
             // Level Success input handling
             if (currentGameState == GameState::LEVEL_SUCCESS) {
-                if (e.scancode == sf::Keyboard::Scancode::C) {
+                if (e.scancode == sf::Keyboard::Scancode::Enter) {
                     // Continue to next level
                     beginNextLevel();
                     currentGameState = GameState::RUNNING;
