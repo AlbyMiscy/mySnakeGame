@@ -7,35 +7,64 @@ void Engine::input() {
         },
 
         [this](const sf::Event::KeyPressed& e) {
+            // Menu input handling
+            if (currentGameState == GameState::MENU) {
+                if (e.scancode == sf::Keyboard::Scancode::Enter) {
+                    startGame(); // Start the game
+                    return;
+                }
+                if (e.scancode == sf::Keyboard::Scancode::Escape) {
+                    window.close();
+                    return;
+                }
+            }
+            
+            // Game Over input handling
             if (currentGameState == GameState::GAMEOVER) {
                 if (e.scancode == sf::Keyboard::Scancode::Enter) {
                     startGame();
+                    return;
                 }
             }
 
+            // General game controls
             switch (e.scancode) {
                 case sf::Keyboard::Scancode::Escape:
-                    window.close();
+                    if (currentGameState == GameState::RUNNING) {
+                        currentGameState = GameState::MENU; // Return to menu
+                    } else {
+                        window.close();
+                    }
                     return;
 
                 case sf::Keyboard::Scancode::P:
-                    togglePause();
+                    if (currentGameState == GameState::RUNNING) {
+                        togglePause();
+                    }
                     break;
 
                 case sf::Keyboard::Scancode::Up:
-                    addDirection(Direction::UP);
+                    if (currentGameState == GameState::RUNNING) {
+                        addDirection(Direction::UP);
+                    }
                     break;
 
                 case sf::Keyboard::Scancode::Down:
-                    addDirection(Direction::DOWN);
+                    if (currentGameState == GameState::RUNNING) {
+                        addDirection(Direction::DOWN);
+                    }
                     break;
 
                 case sf::Keyboard::Scancode::Left:
-                    addDirection(Direction::LEFT);
+                    if (currentGameState == GameState::RUNNING) {
+                        addDirection(Direction::LEFT);
+                    }
                     break;
 
                 case sf::Keyboard::Scancode::Right:
-                    addDirection(Direction::RIGHT);
+                    if (currentGameState == GameState::RUNNING) {
+                        addDirection(Direction::RIGHT);
+                    }
                     break;
 
                 default:

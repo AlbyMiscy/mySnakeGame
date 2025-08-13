@@ -54,6 +54,19 @@ private:
     Text gameOver;
     Text pressEnterText;
     
+    // Menu texts
+    Text menuTitle;
+    Text playText;
+    Text quitText;
+    Text instructionsText;
+    
+    // Pause popup elements
+    RectangleShape pauseOverlay;      // Overlay trasparente
+    RectangleShape pauseBox;          // Box del popup
+    Text pauseTitle;
+    Text pauseInstruction1;
+    Text pauseInstruction2;
+    
     // Snake start position from level
     Vector2f snakeStartPosition;
     
@@ -67,7 +80,7 @@ private:
 
 public:
     enum Direction { UP, RIGHT, DOWN, LEFT };
-    enum GameState { RUNNING, PAUSED, GAMEOVER };
+    enum GameState { MENU, RUNNING, PAUSED, GAMEOVER };
 
     Engine();
 
@@ -96,6 +109,16 @@ public:
     void fixText();
     void updateTextPosition(); 
     void updateTextContent(); 
+    
+    // Menu functions
+    void setupMenu();
+    void updateMenuPosition();
+    void drawMenu();
+    
+    // Pause popup functions
+    void setupPausePopup();
+    void updatePausePopupPosition();
+    void drawPausePopup();
 
     void beginNextLevel();
 

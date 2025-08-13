@@ -60,3 +60,52 @@ void Engine::updateTextContent(){
     // Update eaten fruit's text
     fruitEatenText.setString("Fruits: " + to_string(fruitEatenThisLevel));
 }
+
+void Engine::setupMenu(){
+    setupText(&menuTitle, mainFont, "SNAKE GAME", 48, Color::Green);
+    setupText(&playText, mainFont, "Press ENTER to Play", 24, Color::White);
+    setupText(&quitText, mainFont, "Press ESC to Quit", 20, Color(128, 128, 128)); // Gray color
+    setupText(&instructionsText, mainFont, "Use Arrow Keys to Move or 'P' to Pause the game", 16, Color::Yellow);
+}
+
+void Engine::updateMenuPosition(){
+    // Center all menu items on screen
+    Vector2f center(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
+    
+    // Menu Title
+    FloatRect menuTitleBounds = menuTitle.getLocalBounds();
+    float menuTitleX = center.x - (menuTitleBounds.size.x / 2.0f);
+    float menuTitleY = center.y - 100.0f;
+    menuTitle.setPosition(Vector2f(menuTitleX, menuTitleY));
+    
+    // Play Text
+    FloatRect playTextBounds = playText.getLocalBounds();
+    float playTextX = center.x - (playTextBounds.size.x / 2.0f);
+    float playTextY = center.y - 20.0f;
+    playText.setPosition(Vector2f(playTextX, playTextY));
+    
+    // Instructions
+    FloatRect instructionsBounds = instructionsText.getLocalBounds();
+    float instructionsX = center.x - (instructionsBounds.size.x / 2.0f);
+    float instructionsY = center.y + 20.0f;
+    instructionsText.setPosition(Vector2f(instructionsX, instructionsY));
+    
+    // Quit Text
+    FloatRect quitTextBounds = quitText.getLocalBounds();
+    float quitTextX = center.x - (quitTextBounds.size.x / 2.0f);
+    float quitTextY = center.y + 60.0f;
+    quitText.setPosition(Vector2f(quitTextX, quitTextY));
+}
+
+void Engine::drawMenu(){
+    window.clear(Color::Black);
+    
+    updateMenuPosition();
+    
+    window.draw(menuTitle);
+    window.draw(playText);
+    window.draw(instructionsText);
+    window.draw(quitText);
+    
+    window.display();
+}

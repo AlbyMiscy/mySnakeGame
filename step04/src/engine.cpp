@@ -8,12 +8,13 @@ Engine::Engine() : mainFont([]() {
         std::cerr << "Warning: Could not load custom font, using default" << std::endl;
     }
     return f; 
-}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont) {
+}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont) {
     window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
     window.setFramerateLimit(FPS);
     maxLevels = 0;
     checkLevelFiles();
-    startGame();
+    currentGameState = GameState::MENU; // Start with menu
+    setupMenu();
     fixText(); 
 }
 
@@ -43,6 +44,13 @@ void Engine::run(){
     // main loop - Runs until the window is closed
     while(window.isOpen()){
         Time dt = clock.restart();
+
+        if(currentGameState == GameState::MENU) {
+            input();
+            drawMenu();
+            sleep(milliseconds(2));
+            continue;
+        }
 
         if(currentGameState == GameState::PAUSED || currentGameState == GameState::GAMEOVER){
             input();
