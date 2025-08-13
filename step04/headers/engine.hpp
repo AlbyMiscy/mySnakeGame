@@ -66,6 +66,13 @@ private:
     Text pauseTitle;
     Text pauseInstruction1;
     Text pauseInstruction2;
+
+    // Success level popup elements
+    RectangleShape successOverlay;    // Overlay trasparente
+    RectangleShape successBox;        // Box del popup
+    Text successTitle;
+    Text successInstruction1;
+    Text successInstruction2;
     
     // Snake start position from level
     Vector2f snakeStartPosition;
@@ -80,7 +87,7 @@ private:
 
 public:
     enum Direction { UP, RIGHT, DOWN, LEFT };
-    enum GameState { MENU, RUNNING, PAUSED, GAMEOVER };
+    enum GameState { MENU, RUNNING, PAUSED, GAMEOVER, LEVEL_SUCCESS };
 
     Engine();
 
@@ -119,6 +126,11 @@ public:
     void setupPausePopup();
     void updatePausePopupPosition();
     void drawPausePopup();
+    
+    // Success level popup functin
+    void setupSuccessLevelPopup();
+    void updateSuccessLevelPopupPosition();
+    void drawSuccessLevelPopup();
 
     void beginNextLevel();
 

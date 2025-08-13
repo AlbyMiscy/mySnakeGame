@@ -27,6 +27,20 @@ void Engine::input() {
                 }
             }
 
+            // Level Success input handling
+            if (currentGameState == GameState::LEVEL_SUCCESS) {
+                if (e.scancode == sf::Keyboard::Scancode::C) {
+                    // Continue to next level
+                    beginNextLevel();
+                    currentGameState = GameState::RUNNING;
+                    return;
+                }
+                if (e.scancode == sf::Keyboard::Scancode::Escape) {
+                    currentGameState = GameState::MENU;
+                    return;
+                }
+            }
+
             // General game controls
             switch (e.scancode) {
                 case sf::Keyboard::Scancode::Escape:

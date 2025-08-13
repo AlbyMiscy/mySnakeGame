@@ -80,11 +80,15 @@ void Engine::update(){
             updateTextContent(); // Update text
 
             bool beginningNewLevel = false;
-            if(fruitEatenThisLevel >= 10){
-                // Begin the next level
+            if(fruitEatenThisLevel >= 1){
+                // Check if there are more levels
                 if(currentLevel < maxLevels){
                     beginningNewLevel = true;
-                    beginNextLevel();
+                    currentGameState = GameState::LEVEL_SUCCESS;
+                } else {
+                    // Player completed all levels - show game over (could be "victory" screen)
+                    currentGameState = GAMEOVER;
+                    beginningNewLevel = true;
                 }
             }
             if(!beginningNewLevel){

@@ -8,13 +8,16 @@ Engine::Engine() : mainFont([]() {
         std::cerr << "Warning: Could not load custom font, using default" << std::endl;
     }
     return f; 
-}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont), pauseTitle(mainFont), pauseInstruction1(mainFont), pauseInstruction2(mainFont) {
+}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont), pauseTitle(mainFont), pauseInstruction1(mainFont), pauseInstruction2(mainFont),
+      successTitle(mainFont), successInstruction1(mainFont), successInstruction2(mainFont) {
     window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
     window.setFramerateLimit(FPS);
+    window.setVerticalSyncEnabled(true); // Enable VSync to reduce tearing/glitches
     maxLevels = 0;
     checkLevelFiles();
     currentGameState = GameState::MENU; // Start with menu
     setupMenu();
+    setupSuccessLevelPopup();
     setupPausePopup(); // Setup pause popup elements
     fixText(); 
 }
@@ -53,16 +56,22 @@ void Engine::run(){
             continue;
         }
 
-        if(currentGameState == GameState::PAUSED || currentGameState == GameState::GAMEOVER){
+        if(currentGameState == GameState::PAUSED || currentGameState == GameState::GAMEOVER || currentGameState == GameState::LEVEL_SUCCESS){
             input();
             if(currentGameState == GameState::GAMEOVER){
                 draw();
+                window.display(); // Ensure display is called for game over
             } else if(currentGameState == GameState::PAUSED) {
-                draw(); // Draw normal game with transparency effect
-                drawPausePopup(); // Draw pause popup on top
+                draw(); // Draw normal game first
+                drawPausePopup(); // Draw pause popup on top (includes display)
+            }
+            else if(currentGameState == GameState::LEVEL_SUCCESS){
+                draw(); // Draw normal game first  
+                drawSuccessLevelPopup(); // Draw success popup on top (includes display)
             }
 
-            sleep(milliseconds(2)); // sleep so we don't peg the CPU
+            // Reduce CPU usage during popup states
+            sleep(milliseconds(16)); // ~60 FPS equivalent
             continue;
         }
 

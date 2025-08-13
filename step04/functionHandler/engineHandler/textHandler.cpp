@@ -164,6 +164,7 @@ void Engine::updatePausePopupPosition(){
 }
 
 void Engine::drawPausePopup(){
+    // Update positions only once per frame
     updatePausePopupPosition();
     
     // Draw overlay first (makes background transparent)
@@ -177,5 +178,78 @@ void Engine::drawPausePopup(){
     window.draw(pauseInstruction1);
     window.draw(pauseInstruction2);
     
+    // Display everything at once to prevent flickering
+    window.display();
+}
+
+void Engine::setupSuccessLevelPopup(){
+    // Setup overlay (semi-transparent background)
+    successOverlay.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    successOverlay.setFillColor(Color(0, 0, 0, 128)); // Black with 50% transparency
+    
+    // Setup popup box
+    successBox.setSize(Vector2f(500, 300));
+    successBox.setFillColor(Color(50, 50, 50, 220)); // Dark gray, almost opaque
+    successBox.setOutlineThickness(3);
+    successBox.setOutlineColor(Color::White);
+    
+    // Setup texts
+    setupText(&successTitle, mainFont, "SUCCESS!", 48, Color::Green);
+    setupText(&successInstruction1, mainFont, "Press C to Continue", 24, Color::White);
+    setupText(&successInstruction2, mainFont, "Press ESC to Quit", 20, Color(200, 200, 200));
+}
+
+void Engine::updateSuccessLevelPopupPosition(){
+    Vector2f cameraCenter = camera.getCenter();
+    
+    // Position overlay to cover the camera view
+    successOverlay.setPosition(Vector2f(
+        cameraCenter.x - (WINDOW_WIDTH / 2.0f),
+        cameraCenter.y - (WINDOW_HEIGHT / 2.0f)
+    ));
+    
+    // Center the popup box
+    Vector2f boxSize = successBox.getSize();
+    successBox.setPosition(Vector2f(
+        cameraCenter.x - (boxSize.x / 2.0f),
+        cameraCenter.y - (boxSize.y / 2.0f)
+    ));
+    
+    // Position texts inside the box
+    FloatRect successTitleBounds = successTitle.getLocalBounds();
+    successTitle.setPosition(Vector2f(
+        cameraCenter.x - (successTitleBounds.size.x / 2.0f),
+        cameraCenter.y - 80.0f
+    ));
+    
+    FloatRect instruction1Bounds = successInstruction1.getLocalBounds();
+    successInstruction1.setPosition(Vector2f(
+        cameraCenter.x - (instruction1Bounds.size.x / 2.0f),
+        cameraCenter.y + 10.0f
+    ));
+    
+    FloatRect instruction2Bounds = successInstruction2.getLocalBounds();
+    successInstruction2.setPosition(Vector2f(
+        cameraCenter.x - (instruction2Bounds.size.x / 2.0f),
+        cameraCenter.y + 50.0f
+    ));
+}
+
+void Engine::drawSuccessLevelPopup(){
+    // Update positions only once per frame
+    updateSuccessLevelPopupPosition();
+    
+    // Draw overlay first (makes background transparent)
+    window.draw(successOverlay);
+    
+    // Draw popup box
+    window.draw(successBox);
+    
+    // Draw texts
+    window.draw(successTitle);
+    window.draw(successInstruction1);
+    window.draw(successInstruction2);
+    
+    // Display everything at once to prevent flickering
     window.display();
 }

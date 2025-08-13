@@ -27,8 +27,8 @@ void Engine::draw(){
         window.draw(pressEnterText);
     }
 
-    // Only display if not paused (pause popup will handle display)
-    if(currentGameState != GameState::PAUSED) {
+    // Only display if not in popup states (popup functions will handle display)
+    if(currentGameState != GameState::PAUSED && currentGameState != GameState::LEVEL_SUCCESS) {
         window.display();
     }
 }
