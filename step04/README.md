@@ -1,27 +1,71 @@
-# Step03 - Sistema UI Avanzato e Sprite Casuali
+# Step04 - Sistema UI Completo e Navigazione Avanzata
 
-Questo step estende le funzionalità di step02 introducendo un sistema di interfaccia utente dinamica e sprite casuali per la frutta, trasformando il gioco in un'esperienza più ricca e visivamente accattivante.
+Questo step trasforma completamente l'esperienza di gioco di step03, introducendo un sistema completo di interfaccia utente, gestione stati avanzata e strumenti di navigazione intelligenti, elevando il progetto da prototipo a gioco completo e professionale.
 
-![example](../resources/documentationImg/step03.png)
+<table>
+  <tr>
+    <td align="center">
+      <img src="../resources/documentationImg/step04-menu.png" width="320" alt="Menu Principale">
+      <br><b>🎮 Menu Principale</b>
+      <br><i>Nuovo menu di avvio con istruzioni</i>
+    </td>
+    <td align="center">
+      <img src="../resources/documentationImg/step04-gameplay.png" width="320" alt="Gameplay con freccia direzionale">
+      <br><b>🧭 Freccia Direzionale + Contatori</b>
+      <br><i>Guida animata verso il frutto e contatori</i>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="../resources/documentationImg/step04-gameover.png" width="320" alt="Game Over">
+      <br><b>😵 Game Over</b>
+      <br><i>Interfaccia elegante con restart</i>
+    </td>
+    <td align="center">
+      <img src="../resources/documentationImg/step04-pause.png" width="320" alt="Pausa">
+      <br><b>⏸️ Sistema di Pausa</b>
+      <br><i>Popup elegante con overlay</i>
+    </td>
+  </tr>
+</table>
 
 ## 🆕 Nuove Funzionalità
 
-### 🎨 **Sistema Sprite Casuali per Frutta**
-- Texture spritesheet con 3 varianti di frutta (48x16px, 3 sprite da 16x16px)
-- Selezione casuale della sprite ad ogni generazione di frutta
-- Sistema di texture condivisa ottimizzato per performance
-- Integrazione con generatori casuali thread-safe
+### 🎮 **Sistema di Menu Principale**
+- Menu di avvio professionale con titolo stilizzato "SNAKE GAME"
+- Controlli intuitivi: ENTER per giocare, ESC per uscire
+- Istruzioni integrate sempre visibili per guidare l'utente
+- Transizioni fluide tra menu e gameplay
+- Design responsive centrato sulla finestra
 
-### 📊 **Sistema UI Dinamico**
-- Interfaccia utente che segue la telecamera
-- Display in tempo reale di livello corrente e frutti raccolti
-- Posizionamento intelligente del testo rispetto alla viewport
-- Font personalizzato caricato dinamicamente
+### ⏸️ **Sistema di Pausa Avanzato**
+- Popup di pausa con overlay semi-trasparente
+- Attivazione/disattivazione con tasto **P** durante il gameplay
+- Interfaccia elegante con box centrato e istruzioni chiare
+- Ripresa del gioco senza perdita di stato o posizione
+- Background del gioco visibile attraverso l'overlay
 
-### 🎥 **Telecamera Migliorata**
-- Separazione logica gestione telecamera in `cameraHandler.cpp`
-- Sincronizzazione automatica UI-telecamera
-- Smooth following ottimizzato per 60 FPS
+### 🏆 **Gestione Livelli e Progressione**
+- Sistema di avanzamento automatico al raggiungimento di **8 frutti** per livello
+- Popup di successo livello con opzioni continue/quit
+- Controlli dedicati: **ENTER** per continuare, **ESC** per menu
+- Reset intelligente delle variabili tra livelli mantenendo velocità progressiva
+- Gestione completa quando si raggiunge l'ultimo livello disponibile
+
+### 💀 **Interfaccia Game Over Migliorata**
+- Schermata Game Over con testo centrato e stilizzato
+- Opzione di restart immediato con **ENTER**
+- Ritorno al menu principale con **ESC**
+- Preservazione statistiche durante la sessione di gioco
+- Design consistente con il resto dell'UI
+
+### 🧭 **Sistema di Freccia Direzionale (NUOVO!)**
+- Freccia animata che indica la direzione esatta del frutto
+- Animazione fluida con 3 frame (16x16px) scalati a 32x32px
+- Posizionamento intelligente ai margini della camera view
+- Visibilità condizionale: appare solo quando il frutto è fuori vista
+- Rotazione dinamica in tempo reale verso la posizione del frutto
+- Performance ottimizzate con aggiornamenti solo quando necessario
 
 ## 📁 Struttura del Progetto
 
@@ -29,271 +73,409 @@ Questo step estende le funzionalità di step02 introducendo un sistema di interf
 mySnakeGame/
 ├── CMakeLists.txt              # Build + copia automatica resources/
 ├── build/                      # Directory di build con resources/
-│   ├── step03                  # Eseguibile avanzato
+│   ├── step04                  # Eseguibile completo
 │   └── resources/              # Risorse con nuove texture
 ├── resources/                  # Risorse estese
 │   ├── fonts/                  # Font personalizzati
 │   │   └── A_Goblin_Appears.otf # Font principale UI
 │   ├── levels/                 # Mappe di gioco
 │   │   ├── levels.txt          # Lista dei livelli
-│   │   └── Level01.png         # Mappa pixel-based
-│   └── texture/                # Texture per oggetti
-│       ├── wall.png            # Texture dei muri
-│       └── fruit.png           # NEW: Spritesheet 48x16 (3 sprite)
-└── step03/                     # Implementazione avanzata
+│   │   ├── Level01.png         # Mappa livello 1
+│   │   └── Level02.png         # NEW: Mappa livello 2
+│   ├── texture/                # Texture per oggetti
+│   │   ├── wall.png            # Texture dei muri
+│   │   ├── fruit.png           # Spritesheet frutti (3 sprite)
+│   │   └── arrow.png           # NEW: Sprite freccia direzionale (3 frame)
+│   └── documentationImg/       # Screenshot per documentazione
+│       ├── step04-menu.png     # Screenshot menu
+│       ├── step04-gameplay.png # Screenshot gameplay
+│       ├── step04-pause.png    # Screenshot pausa
+│       └── step04-gameover.png # Screenshot game over
+└── step04/                     # Implementazione completa
     ├── headers/                # File header (.hpp)
-    │   ├── engine.hpp          # Engine con UI system
+    │   ├── engine.hpp          # Engine con sistema stati completo
     │   ├── snake.hpp           # Snake base (invariato)
-    │   ├── fruit.hpp           # NEW: Classe con sprite casuali
+    │   ├── fruit.hpp           # Sistema sprite casuali (da step03)
     │   └── wall.hpp            # Wall system (invariato)
     ├── src/                    # Implementazioni base (.cpp)
     │   ├── main.cpp            # Entry point
-    │   ├── engine.cpp          # Engine + font loading
+    │   ├── engine.cpp          # Engine + inizializzazione completa
     │   ├── snake.cpp           # Snake base
-    │   ├── fruit.cpp           # NEW: Sistema sprite casuali
+    │   ├── fruit.cpp           # Sistema sprite casuali
     │   └── wall.cpp            # Wall implementation
     └── functionHandler/        # Handler specializzati
         └── engineHandler/      # Funzioni del motore di gioco
-            ├── input.cpp       # Gestione input
-            ├── update.cpp      # Logica + UI updates
-            ├── draw.cpp        # Rendering + UI drawing
-            ├── snakeFunction.cpp # Snake management
-            ├── fruitFunction.cpp # Frutta + randomizzazione
-            ├── levelHandler.cpp  # Level management
-            ├── togglePauseFunction.cpp # Sistema pausa
-            ├── cameraHandler.cpp # NEW: Gestione telecamera
-            └── textHandler.cpp   # NEW: Sistema UI completo
+            ├── input.cpp       # Gestione input contestuale per tutti gli stati
+            ├── update.cpp      # Logica + aggiornamenti freccia
+            ├── draw.cpp        # Rendering + freccia direzionale
+            ├── snakeHandler.cpp # Snake management (rinominato)
+            ├── fruitHandler.cpp # Frutta + randomizzazione (rinominato)
+            ├── levelHandler.cpp # Level management + progressione
+            ├── togglePauseHandler.cpp # Sistema pausa (rinominato)
+            ├── cameraHandler.cpp # Gestione telecamera (da step03)
+            ├── textHandler.cpp # Sistema UI completo + popup
+            └── directionArrowHandler.cpp # NEW: Gestione freccia direzionale
 ```
 
 ## 🧩 Novità Principali
 
-### `Fruit.hpp/.cpp` - Sistema Sprite Casuali
-La classe `Fruit` è stata completamente riscritta per supportare sprite casuali invece di semplici rettangoli colorati.
+### `directionArrowHandler.cpp` - Sistema Freccia Direzionale (NUOVO!)
+Modulo completamente nuovo per la gestione della freccia direzionale animata.
 
-**Nuovi Attributi:**
+**Funzionalità Principali:**
 ```cpp
-class Fruit {
+class Engine {
 private:
-    unique_ptr<Sprite> sprite;          // Sprite grafica (16x16 scalata 1.25x)
-    static Texture texture;             // Texture condivisa (Singleton pattern)
-    static bool textureLoaded;          // Flag caricamento lazy
-    int currentSpriteIndex;             // Indice sprite corrente (0-2)
-    random_device rd;                   // Seed hardware casualità
-    mt19937 gen;                        // Generatore Mersenne Twister
-    uniform_int_distribution<> dis;     // Distribuzione uniforme [0,2]
+    Texture arrowTexture;           // Texture freccia (48x16px, 3 frame)
+    Sprite arrowSprite;             // Sprite freccia scalata 2x
+    int currentArrowFrame;          // Frame animazione corrente (0-2)
+    Time arrowAnimationTimer;       // Timer per animazione fluida
+    const float ARROW_ANIMATION_SPEED = 0.2f; // 5 FPS animazione
+    const float ARROW_MARGIN = 50.0f;         // Distanza da bordo camera
 ```
 
 **Nuove Funzioni:**
-- **`randomizeSprite()`**: Seleziona casualmente una delle 3 sprite disponibili
-- **`loadTexture()`**: Caricamento lazy della texture condivisa
-- **`getSprite()`**: Ritorna riferimento alla sprite (performance ottimizzata)
+- **`setupDirectionArrow()`**: Inizializzazione texture, sprite e parametri animazione
+- **`updateDirectionArrow()`**: Aggiornamento animazione e posizionamento in tempo reale
+- **`drawDirectionArrow()`**: Rendering condizionale (solo se frutto fuori vista)
+- **`calculateArrowPosition()`**: Calcolo matematico posizione ai margini camera
+- **`calculateArrowRotation()`**: Calcolo angolo rotazione verso frutto (trigonometria)
 
-**Algoritmo Selezione Sprite:**
+**Algoritmo Posizionamento Intelligente:**
 ```cpp
-void Fruit::randomizeSprite() {
-    currentSpriteIndex = dis(gen);  // 0, 1, o 2
-    
-    // Ogni sprite è 16x16, disposte orizzontalmente
-    IntRect textureRect(Vector2i(currentSpriteIndex * 16, 0), Vector2i(16, 16));
-    sprite->setTextureRect(textureRect);
-}
-```
-
-**Compatibilità SFML 3.0:**
-- **Costruttore**: `unique_ptr<Sprite>` per gestire costruttore che richiede texture
-- **Scaling**: `setScale(Vector2f(1.25f, 1.25f))` invece di parametri separati
-- **TextureRect**: `IntRect(Vector2i, Vector2i)` per compatibilità API 3.0
-
-### `textHandler.cpp` - Sistema UI Completo
-Nuovo modulo dedicato alla gestione dell'interfaccia utente dinamica.
-
-**Funzioni Principali:**
-```cpp
-// Setup iniziale testi con font personalizzato
-void setupText(Text *textItem, const Font &font, const string &value, int size, Color color);
-
-// Posizionamento testi relativo alla telecamera
-void updateTextPosition();
-
-// Aggiornamento contenuti dinamici
-void updateTextContent();
-
-// Configurazione iniziale completa
-void fixText();
-```
-
-**Sistema Posizionamento Dinamico:**
-```cpp
-void Engine::updateTextPosition() {
+Vector2f Engine::calculateArrowPosition(Vector2f snakePos, Vector2f fruitPos) {
     Vector2f cameraCenter = camera.getCenter();
+    Vector2f direction = fruitPos - snakePos;
     
-    // Titolo centrato orizzontalmente
-    FloatRect titleTextBounds = titleText.getLocalBounds();
-    float titleX = cameraCenter.x - (titleTextBounds.size.x / 2.0f);
-    float titleY = cameraCenter.y - (WINDOW_HEIGHT / 2.0f) + 20.0f;
-    titleText.setPosition(Vector2f(titleX, titleY));
+    // Normalizzazione direzione
+    float length = sqrt(direction.x * direction.x + direction.y * direction.y);
+    if (length > 0) direction /= length;
     
-    // UI laterale sinistra con margine fisso
-    float leftMargin = 20.0f;
-    float currentLevelX = cameraCenter.x - (WINDOW_WIDTH / 2.0f) + leftMargin;
-    // Posizionamento Y progressivo per elementi UI
+    // Calcolo intersezione con bordi camera
+    float scaleX = (WINDOW_WIDTH/2 - ARROW_MARGIN) / abs(direction.x);
+    float scaleY = (WINDOW_HEIGHT/2 - ARROW_MARGIN) / abs(direction.y);
+    float scale = min(scaleX, scaleY);
+    
+    return cameraCenter + direction * scale;
 }
 ```
 
-**Elementi UI Dinamici:**
-- **titleText**: "SnakeGame!" centrato in alto (28px, blu)
-- **currentLevelText**: "Level: X" angolo alto-sinistra (15px, blu)
-- **fruitEatenText**: "Fruits: X" sotto il livello (15px, blu)
+### `textHandler.cpp` - Sistema UI Completo Esteso
+Estensione massiva del sistema UI di step03 con popup e menu completi.
 
-### `cameraHandler.cpp` - Gestione Telecamera Separata
-Separazione logica della gestione telecamera per maggiore modularità.
-
-**Funzioni Specializzate:**
-- **`initializeCamera()`**: Setup iniziale telecamera + sincronizzazione UI
-- **`updateCamera()`**: Aggiornamento fluido telecamera + UI seguente
-
-**Sincronizzazione UI-Telecamera:**
+**Nuovi Elementi UI:**
 ```cpp
-void Engine::updateCamera() {
-    // ... logica telecamera esistente ...
+// Menu principale (NUOVO)
+Text menuTitle, playText, quitText, instructionsText;
+
+// Sistema popup di pausa (NUOVO)
+RectangleShape pauseOverlay, pauseBox;
+Text pauseTitle, pauseInstruction1, pauseInstruction2;
+
+// Sistema popup successo livello (NUOVO)  
+RectangleShape successOverlay, successBox;
+Text successTitle, successInstruction1, successInstruction2;
+```
+
+**Nuove Funzioni Specializzate:**
+- **`setupMenu()`**: Configurazione menu principale con testi centrati
+- **`updateMenuPosition()`**: Posizionamento responsivo elementi menu
+- **`drawMenu()`**: Rendering completo schermata menu
+- **`setupPausePopup()`**: Inizializzazione popup pausa con overlay
+- **`updatePausePopupPosition()`**: Posizionamento dinamico rispetto camera
+- **`drawPausePopup()`**: Rendering popup con effetti trasparenza
+- **`setupSuccessLevelPopup()`**: Setup popup avanzamento livello
+- **`updateSuccessLevelPopupPosition()`**: Posizionamento intelligente popup
+- **`drawSuccessLevelPopup()`**: Rendering popup successo
+
+**Sistema Popup Avanzato:**
+```cpp
+void Engine::setupPausePopup() {
+    // Overlay semi-trasparente full-screen
+    pauseOverlay.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    pauseOverlay.setFillColor(Color(0, 0, 0, 128)); // 50% trasparenza
     
-    camera.setCenter(newCenter);
-    window.setView(camera);
-    
-    // Sincronizzazione automatica UI
-    updateTextPosition();  // UI segue sempre la telecamera
+    // Box popup centrato con bordo
+    pauseBox.setSize(Vector2f(500, 300));
+    pauseBox.setFillColor(Color(50, 50, 50, 220)); // Quasi opaco
+    pauseBox.setOutlineThickness(3);
+    pauseBox.setOutlineColor(Color::White);
 }
 ```
 
-### Aggiornamenti Engine
+### `input.cpp` - Gestione Input Contestuale Avanzata
+Gestione input completamente ridisegnata per supportare tutti gli stati di gioco.
 
-#### `engine.hpp/.cpp` - Font Loading e UI Management
-**Nuovi Attributi:**
+**Stati Supportati:**
 ```cpp
-Font mainFont;                  // Font personalizzato caricato da file
-Text titleText;                 // Titolo del gioco
-Text fruitEatenText;            // Contatore frutti raccolti
-Text currentLevelText;          // Indicatore livello corrente
+enum GameState { 
+    MENU,           // NUOVO: Menu principale
+    RUNNING,        // Gameplay normale (da step03)
+    PAUSED,         // NUOVO: Popup pausa avanzato
+    GAMEOVER,       // NUOVO: Interfaccia game over completa
+    LEVEL_SUCCESS   // NUOVO: Popup avanzamento livello
+};
 ```
 
-**Font Loading Avanzato:**
+**Logica Input Contextual:**
 ```cpp
-// Caricamento font con fallback automatico
-Engine::Engine() : mainFont([]() { 
-    Font f; 
-    if (!f.openFromFile("resources/fonts/A_Goblin_Appears.otf")) {
-        std::cerr << "Warning: Could not load custom font, using default" << std::endl;
+void Engine::input() {
+    // Menu principale
+    if (currentGameState == GameState::MENU) {
+        if (e.scancode == sf::Keyboard::Scancode::Enter) startGame();
+        if (e.scancode == sf::Keyboard::Scancode::Escape) window.close();
     }
-    return f; 
-}()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont)
-```
-
-#### `fruitFunction.cpp` - Integrazione Sprite Casuali
-**Modifiche al Posizionamento:**
-```cpp
-void Engine::moveFruit() {
-    // ... logica posizionamento esistente ...
     
-    fruit.setPosition(newFruitLocation);
-    fruit.randomizeSprite();  // NEW: Randomizza sprite ogni movimento
+    // Popup successo livello
+    if (currentGameState == GameState::LEVEL_SUCCESS) {
+        if (e.scancode == sf::Keyboard::Scancode::Enter) {
+            beginNextLevel();
+            currentGameState = GameState::RUNNING;
+        }
+        if (e.scancode == sf::Keyboard::Scancode::Escape) {
+            currentGameState = GameState::MENU;
+        }
+    }
+    
+    // ... gestione altri stati ...
 }
 ```
 
-#### `update.cpp` - Aggiornamenti UI in Tempo Reale
-**Sincronizzazione Automatica:**
+### `levelHandler.cpp` - Gestione Avanzata Livelli
+Estensione del sistema livelli con progressione automatica e reset intelligente.
+
+**Nuova Funzione:**
 ```cpp
-// Quando il serpente mangia frutta
+void Engine::beginNextLevel() {
+    currentLevel += 1;
+    wallSection.clear();
+    direction.clear();
+    
+    // Velocità progressiva mantenuta
+    speed = 2 + currentLevel;
+    snakeDirection = Direction::RIGHT;
+    sectionToAdd = 0;
+    fruitEatenThisLevel = 0;  // Reset contatore livello
+    
+    loadLevel(currentLevel);
+    newSnake();
+    moveFruit();
+    updateTextContent();      // Aggiornamento UI immediato
+}
+```
+
+### `update.cpp` - Logica Avanzamento Livello
+Integrazione della logica di controllo avanzamento livello.
+
+**Controllo Automatico Avanzamento:**
+```cpp
+// Collision detection - Fruit
 if(snake[0].getShape().getGlobalBounds().findIntersection(fruit.getSprite().getGlobalBounds())) {
     fruitEatenThisLevel += 1;
     fruitEatenTotal += 1;
-    updateTextContent();  // NEW: Aggiorna UI immediatamente
-    // ...
+    updateTextContent(); // Aggiornamento UI immediato
+    
+    bool beginningNewLevel = false;
+    if(fruitEatenThisLevel >= 8) {  // Soglia step04: 8 frutti
+        if(currentLevel < maxLevels) {
+            beginningNewLevel = true;
+            currentGameState = GameState::LEVEL_SUCCESS;  // Popup successo
+        } else {
+            currentGameState = GAMEOVER;  // Tutti i livelli completati
+            beginningNewLevel = true;
+        }
+    }
+    
+    if(!beginningNewLevel) {
+        sectionToAdd += 4;
+        speed++;
+        moveFruit();
+    }
+}
+
+// NEW: Aggiornamento freccia direzionale
+updateDirectionArrow();
+```
+
+### `engine.hpp/.cpp` - Sistema Stati Completo
+Estensione architetturale per supportare tutti i nuovi stati e funzionalità.
+
+**Inizializzazione Completa:**
+```cpp
+Engine::Engine() : /* ... inizializzazione step03 ... */,
+                  arrowSprite(arrowTexture), currentArrowFrame(0), arrowAnimationTimer(Time::Zero) {
+    // ... setup esistente ...
+    
+    window.setVerticalSyncEnabled(true); // Anti-glitch rendering
+    
+    currentGameState = GameState::MENU;  // Avvio da menu
+    setupMenu();
+    setupSuccessLevelPopup();
+    setupPausePopup();
+    setupDirectionArrow();               // NEW: Setup freccia
+    
+    fixText();
 }
 ```
 
-#### `draw.cpp` - Rendering UI Completo
-**Pipeline Rendering Estesa:**
+**Loop Principale Ottimizzato:**
 ```cpp
-void Engine::draw() {
-    // ... rendering esistente ...
-    
-    // NEW: Draw UI Layer
-    window.draw(titleText);
-    window.draw(currentLevelText);  
-    window.draw(fruitEatenText);
+void Engine::run() {
+    while(window.isOpen()) {
+        if(currentGameState == GameState::MENU) {
+            input();
+            drawMenu();
+            sleep(milliseconds(16)); // 60 FPS equivalente
+            continue;
+        }
+        
+        if(currentGameState == GameState::PAUSED || 
+           currentGameState == GameState::LEVEL_SUCCESS) {
+            input();
+            draw(); // Gioco di base
+            
+            if(currentGameState == GameState::PAUSED) {
+                drawPausePopup(); // Overlay popup
+            } else if(currentGameState == GameState::LEVEL_SUCCESS) {
+                drawSuccessLevelPopup(); // Overlay successo
+            }
+            
+            sleep(milliseconds(16));
+            continue;
+        }
+        
+        // ... normale gameplay loop ...
+    }
 }
 ```
 
 ## ⚙️ Miglioramenti Tecnici
 
-### Performance Optimizations
-- **Texture Sharing**: Una sola texture caricata per tutti i frutti
-- **Smart Pointers**: `unique_ptr<Sprite>` per gestione memoria automatica
-- **Lazy Loading**: Texture e font caricati solo quando necessario
-- **UI Batching**: Aggiornamento UI solo quando necessario (movimento telecamera)
+### 🎨 **Rendering Anti-Glitch**
+- **VSync abilitato** per eliminare tearing visivi
+- **Controllo sincronizzato** di `window.display()` per evitare doppi aggiornamenti
+- **Gestione layered** per popup sovrapposti al gameplay
+- **Timing ottimizzato** per 60 FPS costanti in tutti gli stati
 
-### SFML 3.0 Compatibility
-- **API Updates**: Tutti i metodi aggiornati per SFML 3.0
-  - `loadFromFile()` invece di `openFromFile()`
-  - `Vector2f` per `setScale()` invece di parametri separati
-  - `IntRect` con costruttore `Vector2i` based
+### ⌨️ **Sistema Input Robusto**
+- **Gestione contestuale** completa per tutti e 5 gli stati di gioco
+- **Input buffering** intelligente per evitare comandi multipli accidentali
+- **Mappatura intuitiva** e consistente dei controlli
+- **Fallback sicuri** per situazioni edge-case
 
-### Thread Safety
-- **Random Generation**: Generatori thread-safe per sprite casuali
-- **Static Members**: Gestione sicura texture condivise
+### 🎯 **Performance e Ottimizzazioni**
+- **Aggiornamenti condizionali** della freccia direzionale
+- **Rendering on-demand** per popup e overlay
+- **Texture sharing** ottimizzato tra componenti
+- **Memory management** sicuro con RAII patterns
 
-## 🆚 Differenze da Step02
+### 🔧 **Architettura Modulare**
+- **Separazione responsabilità** con handler specializzati
+- **Interface consistency** tra tutti i moduli
+- **Error handling** robusto per caricamento risorse
+- **Extensibility** per future funzionalità
 
-| Funzionalità | Step02 | Step03 |
+## 🆚 Differenze da Step03
+
+| Funzionalità | Step03 | Step04 |
 |-------------|--------|--------|
-| **Frutta** | RectangleShape rosso | Sprite casuali da texture |
-| **UI System** | Nessuna interfaccia | UI dinamica completa |
-| **Font** | Font di sistema | Font personalizzato caricato |
-| **Telecamera** | Gestione monolitica | Handler separato + UI sync |
-| **Texture Management** | Solo muri | Muri + frutti con pattern Singleton |
-| **Randomization** | Solo posizione frutta | Posizione + sprite casuali |
-| **Modularità** | Tutto in engine.cpp | Handler specializzati |
-| **Performance** | Base | Ottimizzazioni texture condivise |
+| **Menu Sistema** | Avvio diretto gameplay | Menu principale completo |
+| **Gestione Stati** | RUNNING/PAUSED/GAMEOVER | 5 stati completi + transizioni |
+| **Sistema Pausa** | Pausa basilare | Popup elegante con overlay |
+| **Avanzamento Livelli** | Manuale/implicito | Automatico con popup conferma |
+| **Game Over** | Testo semplice | Interfaccia completa + restart |
+| **Navigazione** | Nessun aiuto | Freccia direzionale animata |
+| **UI Feedback** | Contatori base | Sistema completo popup + menu |
+| **Input Handling** | Basico per gameplay | Contestuale per tutti gli stati |
+| **Rendering** | Standard | Ottimizzato anti-glitch + layered |
+| **Files Handler** | 9 file (.cpp) | 10 file + rinominazioni per chiarezza |
+| **Soglia Avanzamento** | Non definita | 8 frutti per livello |
+| **Sistema Help** | Nessuno | Freccia direzionale intelligente |
 
-## 🎮 Nuove Esperienze di Gioco
+## 🎮 Esperienza di Gioco Trasformata
 
-### Varietà Visuale
-- **3 Tipi di Frutta**: Ogni frutta generata mostra una sprite diversa casualmente
-- **Feedback Visivo**: UI in tempo reale per progressi e statistiche
-- **Font Artistico**: Esperienza visiva più coinvolgente
+### 🚀 **Professionalità**
+- **Esperienza AAA** con menu, popup e feedback completi
+- **Flusso utente guidato** dall'avvio alla fine partita
+- **Design consistente** in tutti gli elementi UI
+- **Accessibilità migliorata** con istruzioni sempre visibili
 
-### Interfaccia Informativa
-- **Progresso Chiaro**: Contatori frutti e livello sempre visibili
-- **Design Responsive**: UI si adatta automaticamente al movimento telecamera
-- **Leggibilità**: Contrasto e dimensioni ottimizzate per gameplay
+### 🎯 **Gameplay Migliorato**
+- **Mai perdere il frutto** grazie alla freccia direzionale
+- **Progressione chiara** con feedback automatico avanzamento
+- **Controllo completo** con pausa, restart, e navigazione menu
+- **Esperienza fluida** senza interruzioni o confusione
+
+### 💡 **Usabilità Avanzata**
+- **Apprendimento immediato** con istruzioni integrate
+- **Feedback visivo continuo** per ogni azione utente
+- **Controlli intuitivi** mappati logicamente
+- **Recovery facile** da errori o situazioni indesiderate
 
 ## 🏁 Compilazione e Esecuzione
 
 ### Build Standard
 ```bash
-# Configurazione
+# Configurazione (genera compile_commands.json per IDE)
 cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-# Compilazione con copia automatica resources/ (include nuove texture e font)
+# Compilazione con copia automatica resources/ (include arrow.png)
 cmake --build build -j
 
-# Esecuzione 1
-./build/step03
+# Esecuzione
+./build/step04
 
-# Esecuzione 2
-cd build && ./step03
+# Alternativa
+cd build && ./step04
 ```
 
-### Requisiti Texture
-- **fruit.png**: 48x16 pixel, 3 sprite orizzontali da 16x16
-- **A_Goblin_Appears.otf**: Font per UI system
+## 🎮 Controlli Completi
+
+### 🎯 **Menu Principale**
+- **ENTER**: Avvia il gioco
+- **ESC**: Chiude l'applicazione
+
+### 🕹️ **Durante il Gioco**
+- **Frecce direzionali**: Controllo serpente
+- **P**: Attiva/disattiva pausa
+- **ESC**: Torna al menu principale
+
+### ⏸️ **Durante la Pausa**
+- **P**: Riprendi il gioco
+- **ESC**: Torna al menu
+
+### 🏆 **Livello Completato**
+- **ENTER**: Continua al livello successivo
+- **ESC**: Torna al menu
+
+### 💀 **Game Over**
+- **ENTER**: Ricomincia la partita
+- **ESC**: Torna al menu
 
 ## 🔧 Configurazione Sviluppatori
 
-Per sviluppatori che modificano il codice, la stessa configurazione VS Code di step02 rimane valida:
+La configurazione VS Code rimane identica a step03:
 
 ```json
 {
    "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json"
 }
 ```
+
+### Debug e Development
+```bash
+# Build debug con simboli
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+
+# Build release ottimizzato  
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+```
+
+## ✅ Risultato Finale
+
+- **🎮 Esperienza completa**: Da menu iniziale a fine partita con transizioni fluide
+- **🧭 Navigazione intelligente**: Mai più frutti persi grazie alla freccia direzionale
+- **⚡ Performance ottimali**: Rendering fluido 60 FPS senza glitch o lag
+- **🎯 Usabilità professionale**: Interfaccia intuitiva e feedback continuo
+- **🏆 Sistema progressione**: Avanzamento automatico livelli con conferma utente
+- **🔧 Architettura robusta**: Codice modulare, estensibile e manutenibile
