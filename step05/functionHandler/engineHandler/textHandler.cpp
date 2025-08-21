@@ -22,34 +22,30 @@ void Engine::fixText(){
 
 void Engine::updateTextPosition(){
     Vector2f cameraCenter = camera.getCenter();
-    
+    Vector2f camSize = camera.getSize();
     // Title
     FloatRect titleTextBounds = titleText.getLocalBounds();
     float titleX = cameraCenter.x - (titleTextBounds.size.x / 2.0f);
-    float titleY = cameraCenter.y - (WINDOW_HEIGHT / 2.0f) + 20.0f; 
+    float titleY = cameraCenter.y - (camSize.y / 2.0f) + 20.0f;
     titleText.setPosition(Vector2f(titleX, titleY));
-    
     // Current Level
     float leftMargin = 20.0f;
-    float currentLevelX = cameraCenter.x - (WINDOW_WIDTH / 2.0f) + leftMargin;
-    float currentLevelY = cameraCenter.y - (WINDOW_HEIGHT / 2.0f) + 20.0f;
+    float currentLevelX = cameraCenter.x - (camSize.x / 2.0f) + leftMargin;
+    float currentLevelY = cameraCenter.y - (camSize.y / 2.0f) + 20.0f;
     currentLevelText.setPosition(Vector2f(currentLevelX, currentLevelY));
-    
     // Fruit Eaten
-    float fruitEatenX = cameraCenter.x - (WINDOW_WIDTH / 2.0f) + leftMargin;
-    float fruitEatenY = cameraCenter.y - (WINDOW_HEIGHT / 2.0f) + 50.0f; 
+    float fruitEatenX = cameraCenter.x - (camSize.x / 2.0f) + leftMargin;
+    float fruitEatenY = cameraCenter.y - (camSize.y / 2.0f) + 50.0f;
     fruitEatenText.setPosition(Vector2f(fruitEatenX, fruitEatenY));
-
     // Game Over
     FloatRect gameOverBounds = gameOver.getLocalBounds();
     float gameOverX = cameraCenter.x - (gameOverBounds.size.x / 2.0f);
     float gameOverY = cameraCenter.y - (gameOverBounds.size.y / 2.0f);
     gameOver.setPosition(Vector2f(gameOverX, gameOverY));
-    
     // Press Enter Text
     FloatRect pressEnterBounds = pressEnterText.getLocalBounds();
     float pressEnterX = cameraCenter.x - (pressEnterBounds.size.x / 2.0f);
-    float pressEnterY = gameOverY + gameOverBounds.size.y + 20.0f; // 20px di distanza
+    float pressEnterY = gameOverY + gameOverBounds.size.y + 20.0f;
     pressEnterText.setPosition(Vector2f(pressEnterX, pressEnterY));
 }
 
@@ -70,7 +66,8 @@ void Engine::setupMenu(){
 
 void Engine::updateMenuPosition(){
     // Center all menu items on screen
-    Vector2f center(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
+    Vector2f camSize = camera.getSize();
+    Vector2f center(camSize.x / 2.0f, camSize.y / 2.0f);
     
     // Menu Title
     FloatRect menuTitleBounds = menuTitle.getLocalBounds();
@@ -112,7 +109,7 @@ void Engine::drawMenu(){
 
 void Engine::setupPausePopup(){
     // Setup overlay (semi-transparent background)
-    pauseOverlay.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    pauseOverlay.setSize(Vector2f(camera.getSize()));
     pauseOverlay.setFillColor(Color(0, 0, 0, 128)); // Black with 50% transparency
     
     // Setup popup box
@@ -129,11 +126,11 @@ void Engine::setupPausePopup(){
 
 void Engine::updatePausePopupPosition(){
     Vector2f cameraCenter = camera.getCenter();
-    
-    // Position overlay to cover the camera view
+    Vector2f camSize = camera.getSize();
+    pauseOverlay.setSize(camSize);
     pauseOverlay.setPosition(Vector2f(
-        cameraCenter.x - (WINDOW_WIDTH / 2.0f),
-        cameraCenter.y - (WINDOW_HEIGHT / 2.0f)
+        cameraCenter.x - (camSize.x / 2.0f),
+        cameraCenter.y - (camSize.y / 2.0f)
     ));
     
     // Center the popup box
@@ -184,7 +181,7 @@ void Engine::drawPausePopup(){
 
 void Engine::setupSuccessLevelPopup(){
     // Setup overlay (semi-transparent background)
-    successOverlay.setSize(Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    successOverlay.setSize(Vector2f(camera.getSize()));
     successOverlay.setFillColor(Color(0, 0, 0, 128)); // Black with 50% transparency
     
     // Setup popup box
@@ -201,11 +198,11 @@ void Engine::setupSuccessLevelPopup(){
 
 void Engine::updateSuccessLevelPopupPosition(){
     Vector2f cameraCenter = camera.getCenter();
-    
-    // Position overlay to cover the camera view
+    Vector2f camSize = camera.getSize();
+    successOverlay.setSize(camSize);
     successOverlay.setPosition(Vector2f(
-        cameraCenter.x - (WINDOW_WIDTH / 2.0f),
-        cameraCenter.y - (WINDOW_HEIGHT / 2.0f)
+        cameraCenter.x - (camSize.x / 2.0f),
+        cameraCenter.y - (camSize.y / 2.0f)
     ));
     
     // Center the popup box

@@ -6,6 +6,15 @@ void Engine::input() {
             window.close();
         },
 
+        [this](const sf::Event::Resized& e) {
+            // Aggiorna la camera e overlay/testi quando la finestra viene ridimensionata
+            camera.setSize(Vector2f(static_cast<float>(e.size.x), static_cast<float>(e.size.y)));
+            window.setView(camera);
+            updateTextPosition();
+            updatePausePopupPosition();
+            updateSuccessLevelPopupPosition();
+        },
+
         [this](const sf::Event::KeyPressed& e) {
             // Menu input handling
             if (currentGameState == GameState::MENU) {

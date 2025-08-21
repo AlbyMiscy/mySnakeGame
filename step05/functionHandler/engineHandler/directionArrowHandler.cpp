@@ -50,8 +50,9 @@ void Engine::updateDirectionArrow() {
 
 Vector2f Engine::calculateArrowPosition(Vector2f snakePos, Vector2f fruitPos) {
     Vector2f cameraCenter = camera.getCenter();
-    float cameraHalfWidth = WINDOW_WIDTH / 2.0f;
-    float cameraHalfHeight = WINDOW_HEIGHT / 2.0f;
+    Vector2f camSize = camera.getSize();
+    float cameraHalfWidth = camSize.x / 2.0f;
+    float cameraHalfHeight = camSize.y / 2.0f;
     
     // Calculate direction from snake to fruit
     Vector2f direction = fruitPos - snakePos;
@@ -96,10 +97,11 @@ void Engine::drawDirectionArrow() {
     Vector2f cameraCenter = camera.getCenter();
     Vector2f fruitPos = fruit.getSprite().getPosition();
     
-    float cameraLeft = cameraCenter.x - WINDOW_WIDTH / 2.0f;
-    float cameraRight = cameraCenter.x + WINDOW_WIDTH / 2.0f;
-    float cameraTop = cameraCenter.y - WINDOW_HEIGHT / 2.0f;
-    float cameraBottom = cameraCenter.y + WINDOW_HEIGHT / 2.0f;
+    Vector2f camSize = camera.getSize();
+    float cameraLeft = cameraCenter.x - camSize.x / 2.0f;
+    float cameraRight = cameraCenter.x + camSize.x / 2.0f;
+    float cameraTop = cameraCenter.y - camSize.y / 2.0f;
+    float cameraBottom = cameraCenter.y + camSize.y / 2.0f;
     
     // Only draw arrow if fruit is outside camera view
     bool fruitOutsideView = (fruitPos.x < cameraLeft || fruitPos.x > cameraRight ||
