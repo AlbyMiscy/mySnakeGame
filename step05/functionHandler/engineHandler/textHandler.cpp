@@ -57,55 +57,144 @@ void Engine::updateTextContent(){
     fruitEatenText.setString("Fruits: " + to_string(fruitEatenThisLevel));
 }
 
-void Engine::setupMenu(){
-    setupText(&menuTitle, mainFont, "SNAKE GAME", 48, Color::Green);
-    setupText(&playText, mainFont, "Press ENTER to Play", 24, Color::White);
-    setupText(&quitText, mainFont, "Press ESC to Quit", 20, Color(128, 128, 128)); // Gray color
-    setupText(&instructionsText, mainFont, "Use Arrow Keys to Move or 'P' to Pause the game", 16, Color::Yellow);
+// Centra l'origine del testo (tiene conto del top negativo dei font)
+static inline void centerOrigin(sf::Text& t) {
+    sf::FloatRect b = t.getLocalBounds();
+    t.setOrigin(sf::Vector2f(b.position.x + b.size.x * 0.5f, b.position.y + b.size.y * 0.5f));
 }
 
-void Engine::updateMenuPosition(){
-    // Center all menu items on screen
-    Vector2f camSize = camera.getSize();
-    Vector2f center(camSize.x / 2.0f, camSize.y / 2.0f);
-    
-    // Menu Title
-    FloatRect menuTitleBounds = menuTitle.getLocalBounds();
-    float menuTitleX = center.x - (menuTitleBounds.size.x / 2.0f);
-    float menuTitleY = center.y - 100.0f;
-    menuTitle.setPosition(Vector2f(menuTitleX, menuTitleY));
-    
-    // Play Text
-    FloatRect playTextBounds = playText.getLocalBounds();
-    float playTextX = center.x - (playTextBounds.size.x / 2.0f);
-    float playTextY = center.y - 20.0f;
-    playText.setPosition(Vector2f(playTextX, playTextY));
-    
-    // Instructions
-    FloatRect instructionsBounds = instructionsText.getLocalBounds();
-    float instructionsX = center.x - (instructionsBounds.size.x / 2.0f);
-    float instructionsY = center.y + 20.0f;
-    instructionsText.setPosition(Vector2f(instructionsX, instructionsY));
-    
-    // Quit Text
-    FloatRect quitTextBounds = quitText.getLocalBounds();
-    float quitTextX = center.x - (quitTextBounds.size.x / 2.0f);
-    float quitTextY = center.y + 60.0f;
-    quitText.setPosition(Vector2f(quitTextX, quitTextY));
+static inline int scaledPx(float viewH, float pct, int minPx, int maxPx) {
+    int px = static_cast<int>(std::round(viewH * pct));
+    return std::max(minPx, std::min(px, maxPx));
 }
 
-void Engine::drawMenu(){
-    window.clear(Color::Black);
-    
+void Engine::setupMenu() {
+    // Valori base (poi verranno riscalati e, se serve, ristretti in updateMenuPosition)
+    setupText(&menuTitle,        mainFont, "SNAKE GAME", 42, sf::Color::Green);
+    setupText(&playText,         mainFont, "Press ENTER to Play", 20, sf::Color::White);
+    setupText(&instructionsText, mainFont, "Use Arrow Keys to Move or 'P' to Pause the game", 14, sf::Color::Yellow);
+    setupText(&quitText,         mainFont, "Press ESC to Quit", 16, sf::Color(128,128,128));
+
+    menuBox.setFillColor(sf::Color(30,30,30,220));
+    menuBox.setOutlineThickness(2);
+    menuBox.setOutlineColor(sf::Color::White);
+}
+
+void Engine::updateMenuPosition() {
+    const sf::Vector2f camSize   = camera.getSize();
+    const sf::Vector2f camCenter = camera.getCenter();
+    const float H = camSize.y;
+
+    // ---- 1) Base scaling (più piccolo del precedente)
+    int szTitle =  scaledPx(H, 0.10f, 22, 120);
+    int szPlay  =  scaledPx(H, 0.050f, 14, 60);
+    int szInstr =  scaledPx(H, 0.033f, 12, 50);
+    int szQuit  =  scaledPx(H, 0.030f, 12, 46);
+
+    menuTitle.setCharacterSize(szTitle);
+    playText.setCharacterSize(szPlay);
+    instructionsText.setCharacterSize(szInstr);
+    quitText.setCharacterSize(szQuit);
+
+    centerOrigin(menuTitle);
+    centerOrigin(playText);
+    centerOrigin(instructionsText);
+    centerOrigin(quitText);
+
+    // Padding / gap leggermente compatti
+    float padY = std::clamp(H * 0.014f, 8.f, 22.f);
+    float padX = std::clamp(camSize.x * 0.030f, 18.f, 48.f);
+    float gap  = std::clamp(H * 0.010f, 6.f, 18.f);
+
+    auto lh = [](const sf::Text& t){ return t.getLocalBounds().size.y; };
+    auto lw = [](const sf::Text& t){ return t.getLocalBounds().size.x; };
+
+    auto recompute = [&](float& hTitle, float& hPlay, float& hInstr, float& hQuit,
+                         float& textTotalH, float& maxW)
+    {
+        hTitle = lh(menuTitle);
+        hPlay  = lh(playText);
+        hInstr = lh(instructionsText);
+        hQuit  = lh(quitText);
+        textTotalH = hTitle + hPlay + hInstr + hQuit + 3.f * gap;
+        maxW = std::max(std::max(lw(menuTitle), lw(playText)),
+                        std::max(lw(instructionsText), lw(quitText)));
+    };
+
+    float hTitle, hPlay, hInstr, hQuit, textTotalH, maxW;
+    recompute(hTitle, hPlay, hInstr, hQuit, textTotalH, maxW);
+
+    // ---- 2) Auto‑shrink se troppo largo/alto per la view
+    // Limiti: il box non deve superare ~85% della larghezza e ~45% dell’altezza
+    const float maxBoxW = camSize.x * 0.85f;
+    const float maxBoxH = camSize.y * 0.45f;
+
+    // Dimensioni stimate del box con i padding attuali
+    float estBoxW = maxW + 2.f * padX;
+    float estBoxH = textTotalH + 2.f * padY;
+
+    float shrinkW = (estBoxW > maxBoxW) ? (maxBoxW / estBoxW) : 1.f;
+    float shrinkH = (estBoxH > maxBoxH) ? (maxBoxH / estBoxH) : 1.f;
+    float shrink  = std::min(shrinkW, shrinkH);
+
+    if (shrink < 1.f) {
+        // Applica la riduzione ai font (mantieni un minimo per la leggibilità)
+        szTitle = std::max(12, static_cast<int>(std::floor(szTitle * shrink)));
+        szPlay  = std::max(10, static_cast<int>(std::floor(szPlay  * shrink)));
+        szInstr = std::max(10, static_cast<int>(std::floor(szInstr * shrink)));
+        szQuit  = std::max(10, static_cast<int>(std::floor(szQuit  * shrink)));
+
+        menuTitle.setCharacterSize(szTitle);
+        playText.setCharacterSize(szPlay);
+        instructionsText.setCharacterSize(szInstr);
+        quitText.setCharacterSize(szQuit);
+
+        centerOrigin(menuTitle);
+        centerOrigin(playText);
+        centerOrigin(instructionsText);
+        centerOrigin(quitText);
+
+        // Riduci leggermente anche gap/padding per schermi molto piccoli
+        gap  *= std::clamp(shrink, 0.75f, 1.f);
+        padX *= std::clamp(shrink, 0.75f, 1.f);
+        padY *= std::clamp(shrink, 0.75f, 1.f);
+
+        // Ricalcola misure dopo lo shrink
+        recompute(hTitle, hPlay, hInstr, hQuit, textTotalH, maxW);
+    }
+
+    // ---- 3) Dimensione e posizione del box centrato
+    sf::Vector2f boxSize(maxW + 2.f*padX, textTotalH + 2.f*padY);
+    menuBox.setSize(boxSize);
+    menuBox.setPosition(camCenter - boxSize * 0.5f);
+
+    // ---- 4) Posizionamento righe (centrate)
+    float y = camCenter.y - textTotalH * 0.5f;
+
+    menuTitle.setPosition({camCenter.x, y + hTitle * 0.5f});
+    y += hTitle + gap;
+
+    playText.setPosition({camCenter.x, y + hPlay * 0.5f});
+    y += hPlay + gap;
+
+    instructionsText.setPosition({camCenter.x, y + hInstr * 0.5f});
+    y += hInstr + gap;
+
+    quitText.setPosition({camCenter.x, y + hQuit * 0.5f});
+}
+
+void Engine::drawMenu() {
+    window.setView(camera);
     updateMenuPosition();
-    
+    window.clear(sf::Color::Black);
+    window.draw(menuBox);
     window.draw(menuTitle);
     window.draw(playText);
     window.draw(instructionsText);
     window.draw(quitText);
-    
     window.display();
 }
+
 
 void Engine::setupPausePopup(){
     // Setup overlay (semi-transparent background)

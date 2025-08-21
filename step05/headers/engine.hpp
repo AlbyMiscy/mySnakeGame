@@ -54,7 +54,8 @@ private:
     Text gameOver;
     Text pressEnterText;
     
-    // Menu texts
+    // Menu popup
+    RectangleShape menuBox;
     Text menuTitle;
     Text playText;
     Text quitText;
