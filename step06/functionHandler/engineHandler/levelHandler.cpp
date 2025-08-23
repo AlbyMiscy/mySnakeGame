@@ -71,7 +71,8 @@ void Engine::loadLevel(int levelNumber){
     size_t n = std::min(patrolA.size(), patrolB.size());
     enemies.clear();
     for(size_t i=0;i<n;++i){
-        enemies.emplace_back( Enemy(patrolA[i], patrolB[i]) );
+        Enemy::TextureType type = (i % 2 == 0) ? Enemy::TextureType::Enemy1 : Enemy::TextureType::Enemy2;
+        enemies.emplace_back( Enemy(patrolA[i], patrolB[i], type) );
     }
     // Calcolo path per ogni enemy:
     MyGrid g(this);
