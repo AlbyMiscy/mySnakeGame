@@ -16,6 +16,9 @@ void Engine::draw(){
         window.draw(s.getShape());
     }
 
+    // Draw nemici
+    drawEnemies();
+
     // Draw Text
     window.draw(titleText);
     window.draw(currentLevelText);

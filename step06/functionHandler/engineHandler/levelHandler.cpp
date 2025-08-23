@@ -41,12 +41,15 @@ void Engine::loadLevel(int levelNumber){
 
     const auto size = img.getSize(); 
     mapSize = size; 
-    
+
     const sf::Color BLACK  = sf::Color(0, 0, 0);
     const sf::Color RED    = sf::Color(255, 0, 0);
-    const sf::Color BLUE   = sf::Color(0, 0, 255);
+    const sf::Color YELLOW = sf::Color(255,255,0);
+    const sf::Color GREEN  = sf::Color(0,255,0);
 
     constexpr float TILE = 20.f;
+
+    std::vector<sf::Vector2u> patrolA, patrolB;
 
     for (unsigned y = 0; y < size.y; ++y) {
         for (unsigned x = 0; x < size.x; ++x) {
@@ -56,8 +59,25 @@ void Engine::loadLevel(int levelNumber){
                 wallSection.emplace_back(Wall(pos, {TILE, TILE}));
             } else if (c == RED) {
                 snakeStartPosition = pos;
+            } else if (c == YELLOW) {
+                patrolA.emplace_back(sf::Vector2u{x, y});
+            } else if (c == GREEN) {
+                patrolB.emplace_back(sf::Vector2u{x, y});
             }
         }
+    }
+
+    // Pairing semplice: in ordine di raccolta
+    size_t n = std::min(patrolA.size(), patrolB.size());
+    enemies.clear();
+    for(size_t i=0;i<n;++i){
+        enemies.emplace_back( Enemy(patrolA[i], patrolB[i]) );
+    }
+    // Calcolo path per ogni enemy:
+    MyGrid g(this);
+    for(size_t i=0;i<enemies.size();++i){
+        auto path = astar(g, patrolA[i], patrolB[i]);
+        if(!path.empty()) enemies[i].setPath(path);
     }
 }
 

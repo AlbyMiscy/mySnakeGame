@@ -1,4 +1,33 @@
+
 #include "engine.hpp"
+#include <SFML/Graphics.hpp>
+using namespace sf;
+
+// --- Enemy/Pathfinding ---
+bool Engine::isBlocked(sf::Vector2u t) const {
+    if (t.x >= mapSize.x || t.y >= mapSize.y) return true;
+    sf::Rect<float> cell({t.x*20.f, t.y*20.f}, {20.f, 20.f});
+    for (const auto& w : wallSection){
+        if (w.getShape().getGlobalBounds().findIntersection(cell)) return true;
+    }
+    return false;
+}
+
+void Engine::updateEnemies(float dt){
+    for (auto& e : enemies) {
+        e.update(dt);
+        // collisione con snake head
+        if (e.bounds().findIntersection(snake[0].getShape().getGlobalBounds())){
+            currentGameState = GameState::GAMEOVER;
+        }
+        // pattuglia A→B→A (una volta arrivato, inverti)
+        if (e.atEnd()) e.reverse();
+    }
+}
+
+void Engine::drawEnemies(){
+    for (auto& e : enemies) e.draw(window);
+}
 
 const Time Engine::TimePerFrame = seconds(1.f/60.f);
 

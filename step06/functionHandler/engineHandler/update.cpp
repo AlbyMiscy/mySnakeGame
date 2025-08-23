@@ -117,6 +117,9 @@ void Engine::update(){
         timeSinceLastMove = Time::Zero;
     } // END update snake position
     
+    // Update nemici
+    float dt = TimePerFrame.asSeconds();
+    updateEnemies(dt);
     // Update direction arrow
     updateDirectionArrow();
 }

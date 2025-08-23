@@ -29,6 +29,6 @@ Wall::Wall(Vector2f position, Vector2f size){
     }
 }
 
-RectangleShape Wall::getShape(){
+const RectangleShape& Wall::getShape() const {
     return wallShape;
 }

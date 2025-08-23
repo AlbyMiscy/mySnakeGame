@@ -4,6 +4,8 @@
 #include "snake.hpp"
 #include "fruit.hpp"
 #include "wall.hpp"
+#include "enemy.hpp"
+#include "pathfinding.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <algorithm>  
@@ -20,81 +22,93 @@ constexpr unsigned WINDOW_HEIGHT = 600;
 
 class Engine {
 private:
-    // Window
-    RenderWindow window;
-    View camera;  // cam that follow the snake
-    const unsigned int FPS = 60;
-    static const Time TimePerFrame;
 
-    int fruitEatenThisLevel; 
-    int fruitEatenTotal;
+        RenderWindow window;
+        View camera;  // cam that follow the snake
+        const unsigned int FPS = 60;
+        static const Time TimePerFrame;
+
+        int fruitEatenThisLevel; 
+        int fruitEatenTotal;
    
-    // Snake
-    vector<Snake> snake;
+        // Snake
+        vector<Snake> snake;
     
-    int snakeDirection;
-    deque<int> direction; // queue for the direction key pressed
-    int speed;
-    int sectionToAdd; // how many sections to add to the snake
+        int snakeDirection;
+        deque<int> direction; // queue for the direction key pressed
+        int speed;
+        int sectionToAdd; // how many sections to add to the snake
 
-    // Fruit
-    Fruit fruit;
+        // Fruit
+        Fruit fruit;
 
-    // Wall
-    vector<Wall> wallSection;
-    int currentLevel;
-    int maxLevels;
+        // Wall
+        vector<Wall> wallSection;
+        int currentLevel;
+        int maxLevels;
     
-    vector<string> levels;
-    
-    Font mainFont;
-    Text titleText;
-    Text fruitEatenText;
-    Text currentLevelText;
-    Text gameOver;
-    Text pressEnterText;
-    
-    // Menu popup
-    RectangleShape menuBox;
-    Text menuTitle;
-    Text playText;
-    Text quitText;
-    Text instructionsText;
-    
-    // Pause popup elements
-    RectangleShape pauseOverlay;      // Overlay trasparente
-    RectangleShape pauseBox;          // Box del popup
-    Text pauseTitle;
-    Text pauseInstruction1;
-    Text pauseInstruction2;
+        vector<string> levels;
 
-    // Success level popup elements
-    RectangleShape successOverlay;    // Overlay trasparente
-    RectangleShape successBox;        // Box del popup
-    Text successTitle;
-    Text successInstruction1;
-    Text successInstruction2;
+        Font mainFont;
+        Text titleText;
+        Text fruitEatenText;
+        Text currentLevelText;
+        Text gameOver;
+        Text pressEnterText;
     
-    // Direction Arrow elements
-    Texture arrowTexture;
-    Sprite arrowSprite;
-    int currentArrowFrame;            // Current animation frame (0-2)
-    Time arrowAnimationTimer;         // Timer for animation
-    const float ARROW_ANIMATION_SPEED = 0.2f; // Animation speed in seconds
-    const float ARROW_MARGIN = 50.0f; // Distance from camera edge
+        // Menu popup
+        RectangleShape menuBox;
+        Text menuTitle;
+        Text playText;
+        Text quitText;
+        Text instructionsText;
     
-    // Snake start position from level
-    Vector2f snakeStartPosition;
-    
-    // Map dimensions
-    Vector2u mapSize; // Dimensioni della mappa in pixel
+        // Pause popup elements
+        RectangleShape pauseOverlay;      // Overlay trasparente
+        RectangleShape pauseBox;          // Box del popup
+        Text pauseTitle;
+        Text pauseInstruction1;
+        Text pauseInstruction2;
 
-    Time timeSinceLastMove;
+        // Success level popup elements
+        RectangleShape successOverlay;    // Overlay trasparente
+        RectangleShape successBox;        // Box del popup
+        Text successTitle;
+        Text successInstruction1;
+        Text successInstruction2;
+    
+        // Direction Arrow elements
+        Texture arrowTexture;
+        Sprite arrowSprite;
+        int currentArrowFrame;            // Current animation frame (0-2)
+        Time arrowAnimationTimer;         // Timer for animation
+        const float ARROW_ANIMATION_SPEED = 0.2f; // Animation speed in seconds
+        const float ARROW_MARGIN = 50.0f; // Distance from camera edge
+    
+        // Snake start position from level
+        Vector2f snakeStartPosition;
+    
+        // Map dimensions
+        Vector2u mapSize; // Dimensioni della mappa in pixel
 
-    int currentGameState; 
-    int lastGameState;
+        Time timeSinceLastMove;
+
+        int currentGameState; 
+        int lastGameState;
+
+        // --- Enemy/Pathfinding ---
+        std::vector<Enemy> enemies;
+        struct MyGrid : GridProvider {
+            const Engine* e;
+            MyGrid(const Engine* eng) : e(eng) {}
+            bool isBlocked(sf::Vector2u t) const override { return e->isBlocked(t); }
+            sf::Vector2u size() const override { return e->mapSize; }
+        };
 
 public:
+    bool isBlocked(sf::Vector2u t) const;
+    void updateEnemies(float dt);
+    void drawEnemies();
     enum Direction { UP, RIGHT, DOWN, LEFT };
     enum GameState { MENU, RUNNING, PAUSED, GAMEOVER, LEVEL_SUCCESS };
 
