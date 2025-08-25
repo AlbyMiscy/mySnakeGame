@@ -1,8 +1,8 @@
 #include "engine.hpp"
 
 void Engine::moveFruit(){
-    // find a location to place the fruit
-    // must nt be inside the snake, or the wall
+    // Find a location to place the fruit
+    // Must not be inside the snake or the wall
 
     sf::Vector2f fruitResolution(
         static_cast<float>(WINDOW_WIDTH) / 20.f - 2.f,
@@ -16,7 +16,7 @@ void Engine::moveFruit(){
         newFruitLocation.x = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)fruitResolution.x)) * 20;
         newFruitLocation.y = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)fruitResolution.y)) * 20;
 
-        // Check if it is in the snake
+    // Check if the fruit is inside the snake
         for(auto & s : snake){
             const sf::FloatRect snakeBounds = s.getShape().getGlobalBounds();
             const sf::FloatRect fruitRect({newFruitLocation.x, newFruitLocation.y},

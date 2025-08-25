@@ -19,7 +19,7 @@ Engine::Engine(){
 void Engine::run(){
     Clock clock;
 
-    // main loop - Runs until the window is closed
+    // Main loop - runs until the window is closed
     while(window.isOpen()){
         Time dt = clock.restart();
         timeSinceLastMove += dt;
