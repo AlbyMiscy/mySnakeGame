@@ -6,7 +6,7 @@ using namespace std;
 void Engine::checkLevelFiles(){
     ifstream levelsManifest("resources/levels/levels.txt");
     if (!levelsManifest.is_open()) {
-        cout << "Errore: impossibile aprire resources/levels/levels.txt" << endl;
+    cout << "Error: unable to open resources/levels/levels.txt" << endl;
         return;
     }
     
@@ -22,10 +22,10 @@ void Engine::checkLevelFiles(){
 }
 
 void Engine::loadLevel(int levelNumber){
-    // Controllo bounds per evitare segmentation fault
+    // Bounds check to avoid segmentation fault
     if (levelNumber < 1 || levelNumber > (int)levels.size()) {
-        cout << "Errore: levelNumber fuori dai limiti. levelNumber=" << levelNumber 
-             << ", levels.size()=" << levels.size() << endl;
+    cout << "Error: levelNumber out of bounds. levelNumber=" << levelNumber 
+         << ", levels.size()=" << levels.size() << endl;
         return;
     }
 
@@ -33,7 +33,7 @@ void Engine::loadLevel(int levelNumber){
     string levelFile = levels[levelNumber - 1];
     
     if(!img.loadFromFile(levelFile)){
-        cout << "Errore: impossibile caricare il file " << levelFile << endl;
+    cout << "Error: unable to load file " << levelFile << endl;
         return; // error to load the file
     }
 
@@ -67,14 +67,14 @@ void Engine::loadLevel(int levelNumber){
         }
     }
 
-    // Pairing semplice: in ordine di raccolta
+    // Simple pairing: in collection order
     size_t n = std::min(patrolA.size(), patrolB.size());
     enemies.clear();
     for(size_t i=0;i<n;++i){
         Enemy::TextureType type = (i % 2 == 0) ? Enemy::TextureType::Enemy1 : Enemy::TextureType::Enemy2;
         enemies.emplace_back( Enemy(patrolA[i], patrolB[i], type) );
     }
-    // Calcolo path per ogni enemy:
+    // Calculate path for each enemy:
     MyGrid g(this);
     for(size_t i=0;i<enemies.size();++i){
         auto path = astar(g, patrolA[i], patrolB[i]);

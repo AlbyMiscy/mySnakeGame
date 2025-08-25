@@ -22,10 +22,10 @@ public:
     size_t m_pathIdx = 0;
     void ensureTexture(TextureType type);
 
-    // --- Animazione ---
+    // --- Animation ---
     int m_animFrame = 0;
     float m_animTimer = 0.f;
     static constexpr int ANIM_FRAMES = 5;
     static constexpr float ANIM_SPEED = 0.12f; // sec per frame
-    bool m_forward = true; // true: A->B (riga 0), false: B->A (riga 1)
+    bool m_forward = true; // true: A->B (row 0), false: B->A (row 1)
 };

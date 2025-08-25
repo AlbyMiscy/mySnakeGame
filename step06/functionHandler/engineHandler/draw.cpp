@@ -13,10 +13,10 @@ void Engine::draw(){
 
     // Draw snake section
     for(auto & s : snake){
-        window.draw(s.getShape());
+        window.draw(s.getSprite());
     }
 
-    // Draw nemici
+    // Draw enemies
     drawEnemies();
 
     // Draw Text

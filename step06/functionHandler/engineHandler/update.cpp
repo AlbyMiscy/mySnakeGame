@@ -41,30 +41,42 @@ void Engine::update(){
             sectionToAdd--;
         }
 
-        // Update the snake's head position
+        // Update the snake's head position and sprite
         switch (snakeDirection)
         {
         case Direction::RIGHT:
             snake[0].setPosition(Vector2f(thisSectionPosition.x + 20, thisSectionPosition.y));
+            snake[0].setDirection(Snake::RIGHT);
             break;
         case Direction::DOWN:
             snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + 20));
+            snake[0].setDirection(Snake::DOWN);
             break;
         case Direction::LEFT:
             snake[0].setPosition(Vector2f(thisSectionPosition.x - 20, thisSectionPosition.y));
+            snake[0].setDirection(Snake::LEFT);
             break;
         case Direction::UP:
             snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - 20));
+            snake[0].setDirection(Snake::UP);
             break;
-        
         default:
             break;
         }
 
-        // Update the snake's tail position
+        // Update the snake's tail position and set correct body sprite
         for(int s = 1; s < snake.size(); s++){
             thisSectionPosition = snake[s].getPosition();
+            // Determine direction for this body segment
+            sf::Vector2f delta = lastSectionPosition - thisSectionPosition;
+            Snake::Direction bodyDir = Snake::RIGHT;
+            if (delta.x > 0) bodyDir = Snake::RIGHT;
+            else if (delta.x < 0) bodyDir = Snake::LEFT;
+            else if (delta.y > 0) bodyDir = Snake::DOWN;
+            else if (delta.y < 0) bodyDir = Snake::UP;
             snake[s].setPosition(lastSectionPosition);
+            snake[s].setIsHead(false); // Ensure it's body
+            snake[s].setDirection(bodyDir);
             lastSectionPosition = thisSectionPosition;
         }
 
@@ -74,7 +86,7 @@ void Engine::update(){
         }
 
         // Collision detection - Fruit
-        if(snake[0].getShape().getGlobalBounds().findIntersection(fruit.getSprite().getGlobalBounds())){
+    if (snake[0].getSprite().getGlobalBounds().findIntersection(fruit.getSprite().getGlobalBounds()).has_value()) {
             fruitEatenThisLevel += 1;
             fruitEatenTotal += 1;
             updateTextContent(); // Update text
@@ -100,14 +112,14 @@ void Engine::update(){
         
         // Collision detection - Snake Body
         for(int s = 1; s < snake.size(); s++){
-            if(snake[0].getShape().getGlobalBounds().findIntersection(snake[s].getShape().getGlobalBounds())){
+            if (snake[0].getSprite().getGlobalBounds().findIntersection(snake[s].getSprite().getGlobalBounds()).has_value()) {
                 currentGameState = GAMEOVER;
             }
         }
         
         // Collision detection - Walls
         for(auto & wall : wallSection){
-            if(snake[0].getShape().getGlobalBounds().findIntersection(wall.getShape().getGlobalBounds())){
+            if (snake[0].getSprite().getGlobalBounds().findIntersection(wall.getShape().getGlobalBounds()).has_value()) {
                 currentGameState = GAMEOVER;
             }
         }
@@ -117,7 +129,7 @@ void Engine::update(){
         timeSinceLastMove = Time::Zero;
     } // END update snake position
     
-    // Update nemici
+    // Update enemies
     float dt = TimePerFrame.asSeconds();
     updateEnemies(dt);
     // Update direction arrow

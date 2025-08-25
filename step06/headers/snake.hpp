@@ -1,24 +1,33 @@
 #ifndef SNAKE_SNAKE_HPP
 #define SNAKE_SNAKE_HPP
 
+
 #include <SFML/Graphics.hpp>
 
-using namespace sf;
-
 class Snake{
+public:
+    enum Direction { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 };
+
 private:
-    Vector2f position;
-    RectangleShape section;
+    sf::Vector2f position;
+    Direction direction;
+    bool isHead;
+    sf::Sprite sprite;
+    static sf::Texture skinTexture;
+    static bool textureLoaded;
 
 public:
-    Snake(Vector2f startPosition);
+    Snake(sf::Vector2f startPosition, Direction dir = RIGHT, bool head = false);
 
-    Vector2f getPosition();
-    void setPosition(Vector2f);
-
-    RectangleShape getShape();
-
+    sf::Vector2f getPosition();
+    void setPosition(sf::Vector2f);
+    void setDirection(Direction dir);
+    Direction getDirection() const;
+    void setIsHead(bool head);
+    bool getIsHead() const;
+    sf::Sprite& getSprite();
     void update();
+    static void loadTexture();
 };
 
 #endif //SNAKE_SNAKE_HPP

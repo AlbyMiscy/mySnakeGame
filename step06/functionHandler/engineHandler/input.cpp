@@ -7,7 +7,7 @@ void Engine::input() {
         },
 
         [this](const sf::Event::Resized& e) {
-            // Aggiorna la camera e overlay/testi quando la finestra viene ridimensionata
+            // Update camera and overlay/texts when the window is resized
             camera.setSize(Vector2f(static_cast<float>(e.size.x), static_cast<float>(e.size.y)));
             window.setView(camera);
             updateTextPosition();

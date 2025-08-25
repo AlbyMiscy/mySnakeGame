@@ -3,14 +3,14 @@
 
 using namespace std;
 
-// Definizione delle variabili statiche
+// Static variable definitions
 Texture Wall::wallTexture;
 bool Wall::textureLoaded = false;
 
 void Wall::loadWallTexture() {
     if (!textureLoaded) {
         if (!wallTexture.loadFromFile("resources/texture/wall.png")) {
-            // Texture non disponibile, useremo il colore di default
+            // Texture not available, will use default color
         }
         textureLoaded = true;
     }

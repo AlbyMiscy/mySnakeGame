@@ -1,6 +1,7 @@
 #include "../headers/enemy.hpp"
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 using namespace sf;
 
 
@@ -25,11 +26,15 @@ Enemy::Enemy(Vector2u A, Vector2u B, TextureType type)
 
 void Enemy::ensureTexture(TextureType type){
     if(type == TextureType::Enemy1 && !s_loaded1){
-        s_tex1.loadFromFile("resources/texture/enemy1.png");
+    if (!s_tex1.loadFromFile("resources/texture/enemy/enemy1.png")) {
+            std::cerr << "Error: unable to load enemy1.png" << std::endl;
+        }
         s_loaded1 = true;
     }
     if(type == TextureType::Enemy2 && !s_loaded2){
-        s_tex2.loadFromFile("resources/texture/enemy2.png");
+    if (!s_tex2.loadFromFile("resources/texture/enemy/enemy2.png")) {
+            std::cerr << "Error: unable to load enemy2.png" << std::endl;
+        }
         s_loaded2 = true;
     }
 }
@@ -50,7 +55,7 @@ void Enemy::update(float dt){
     }
     m_sprite->setPosition(m_posPx);
 
-    // --- Animazione sprite sheet bidirezionale ---
+    // --- Bidirectional sprite sheet animation ---
     m_animTimer += dt;
     if(m_animTimer >= ANIM_SPEED){
         m_animTimer -= ANIM_SPEED;

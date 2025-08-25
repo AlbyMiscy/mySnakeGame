@@ -16,11 +16,11 @@ bool Engine::isBlocked(sf::Vector2u t) const {
 void Engine::updateEnemies(float dt){
     for (auto& e : enemies) {
         e.update(dt);
-        // collisione con snake head
-        if (e.bounds().findIntersection(snake[0].getShape().getGlobalBounds())){
+    // collision with snake head
+    if (e.bounds().findIntersection(snake[0].getSprite().getGlobalBounds()).has_value()) {
             currentGameState = GameState::GAMEOVER;
         }
-        // pattuglia A→B→A (una volta arrivato, inverti)
+    // patrol A→B→A (once arrived, reverse)
         if (e.atEnd()) e.reverse();
     }
 }
