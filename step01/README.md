@@ -43,13 +43,13 @@ La classe **Engine** è il cuore del gioco che coordina tutti i componenti e ges
 
 **Attributi chiave:**
 ```cpp
-vector<Snake> snake;           // Serpente composto da sezioni
-int snakeDirection;            // Direzione corrente (enum Direction)
-deque<int> direction;          // Coda delle direzioni input
-int speed;                     // Velocità del serpente (4 iniziale)
-int sectionToAdd;              // Sezioni da aggiungere dopo mangiare frutta
-Fruit fruit;                   // Frutta da raccogliere
-Time timeSinceLastMove;        // Timer per controllo movimento
+vector<Snake> snake;           // Snake composed of sections
+int snakeDirection;            // Current direction (enum Direction)
+deque<int> direction;          // Queue of input directions
+int speed;                     // Snake speed (initially 4)
+int sectionToAdd;              // Sections to add after eating fruit
+Fruit fruit;                   // Fruit to collect
+Time timeSinceLastMove;        // Timer for movement control
 ```
 
 **Game Loop Architecture:**
@@ -73,8 +73,8 @@ La classe **Snake** rappresenta una singola sezione del serpente, implementando 
 
 **Attributi privati:**
 ```cpp
-Vector2f position;         // Posizione logica della sezione  
-RectangleShape section;    // Forma grafica SFML (20x20px, verde)
+Vector2f position;         // Logical position of the section  
+RectangleShape section;    // SFML shape (20x20px, green)
 ```
 
 **Interfaccia pubblica:**
@@ -90,9 +90,9 @@ RectangleShape section;    // Forma grafica SFML (20x20px, verde)
 
 **Architettura Multi-Sezione:**
 ```cpp
-vector<Snake> snake;  // Serpente = collezione di sezioni Snake
-snake[0]              // Testa (controllata da input)
-snake[1..n]           // Corpo (segue la sezione precedente)
+vector<Snake> snake;  // Snake = collection of Snake sections
+snake[0]              // Head (controlled by input)
+snake[1..n]           // Body (follows the previous section)
 ```
 
 **Ciclo di vita sezione:**
@@ -110,7 +110,7 @@ La classe **Fruit** gestisce il sistema del cibo collezionabile, implementando m
 
 **Attributi:**
 ```cpp
-RectangleShape sprite;  // Forma grafica SFML (20x20px, rosso)
+RectangleShape sprite;  // SFML shape (20x20px, red)
 ```
 
 **Interfaccia pubblica:**
@@ -124,18 +124,18 @@ RectangleShape sprite;  // Forma grafica SFML (20x20px, rosso)
 
 **Algoritmo Anti-Collisione:**
 ```cpp
-// Calcolo griglia di gioco (800x600 / 20px = 40x30 celle)
-Vector2f fruitResolution(38.f, 28.f);  // -2 per margini
+// Game grid calculation (800x600 / 20px = 40x30 cells)
+Vector2f fruitResolution(38.f, 28.f);  // -2 for margins
 
 do {
-    // Genera posizione casuale sulla griglia
-    newLocation.x = (1 + rand()) * 20;  // Multipli di 20px
+    // Generate random position on the grid
+    newLocation.x = (1 + rand()) * 20;  // Multiples of 20px
     newLocation.y = (1 + rand()) * 20;
     
-    // Verifica collisione con ogni sezione serpente
+    // Check collision with each snake section
     for(Snake& s : snake) {
         if(snakeBounds.findIntersection(fruitRect)) {
-            badLocation = true;  // Riprova
+            badLocation = true;  // Retry
         }
     }
 } while(badLocation);
