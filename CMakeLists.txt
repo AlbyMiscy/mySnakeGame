@@ -28,7 +28,8 @@ set(STEPS
     step02
     step03
     step04
-    step05)
+    step05
+    step06)
 
 foreach(step IN LISTS STEPS)
   file(GLOB_RECURSE CPP_SOURCES
