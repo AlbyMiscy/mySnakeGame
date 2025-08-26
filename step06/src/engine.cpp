@@ -1,12 +1,9 @@
 
 #include "engine.hpp"
-#include <SFML/Graphics.hpp>
-using namespace sf;
 
-// --- Enemy/Pathfinding ---
-bool Engine::isBlocked(sf::Vector2u t) const {
+bool Engine::isBlocked(Vector2u t) const {
     if (t.x >= mapSize.x || t.y >= mapSize.y) return true;
-    sf::Rect<float> cell({t.x*20.f, t.y*20.f}, {20.f, 20.f});
+     Rect<float> cell({t.x*20.f, t.y*20.f}, {20.f, 20.f});
     for (const auto& w : wallSection){
         if (w.getShape().getGlobalBounds().findIntersection(cell)) return true;
     }
@@ -39,7 +36,7 @@ Engine::Engine() : mainFont([]() {
     return f; 
 }()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont), pauseTitle(mainFont), pauseInstruction1(mainFont), pauseInstruction2(mainFont),
       successTitle(mainFont), successInstruction1(mainFont), successInstruction2(mainFont), arrowSprite(arrowTexture), currentArrowFrame(0), arrowAnimationTimer(Time::Zero) {
-    window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
+    window.create( VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake",  Style::Default);
     window.setFramerateLimit(FPS);
     window.setVerticalSyncEnabled(true); // Enable VSync to reduce tearing/glitches
     maxLevels = 0;

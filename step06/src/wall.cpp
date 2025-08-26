@@ -1,7 +1,4 @@
 #include "wall.hpp"
-#include <iostream>
-
-using namespace std;
 
 // Static variable definitions
 Texture Wall::wallTexture;

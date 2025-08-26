@@ -1,10 +1,9 @@
 #include "engine.hpp"
-#include <cmath>
 
 void Engine::setupDirectionArrow() {
     // Load the arrow texture
     if (!arrowTexture.loadFromFile("resources/texture/arrow.png")) {
-        std::cerr << "Warning: Could not load arrow texture from resources/texture/arrow.png" << std::endl;
+        cerr << "Warning: Could not load arrow texture from resources/texture/arrow.png" << endl;
     }
     
     arrowSprite.setTexture(arrowTexture);

@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include <memory>
+#include <iostream>
 
 using namespace sf;
 using namespace std;

@@ -2,11 +2,11 @@
 
 void Engine::input() {
     window.handleEvents(
-        [this](const sf::Event::Closed&) {
+        [this](const Event::Closed&) {
             window.close();
         },
 
-        [this](const sf::Event::Resized& e) {
+        [this](const Event::Resized& e) {
             // Update camera and overlay/texts when the window is resized
             camera.setSize(Vector2f(static_cast<float>(e.size.x), static_cast<float>(e.size.y)));
             window.setView(camera);
@@ -15,14 +15,14 @@ void Engine::input() {
             updateSuccessLevelPopupPosition();
         },
 
-        [this](const sf::Event::KeyPressed& e) {
+        [this](const Event::KeyPressed& e) {
             // Menu input handling
             if (currentGameState == GameState::MENU) {
-                if (e.scancode == sf::Keyboard::Scancode::Enter) {
+                if (e.scancode == Keyboard::Scancode::Enter) {
                     startGame(); // Start the game
                     return;
                 }
-                if (e.scancode == sf::Keyboard::Scancode::Escape) {
+                if (e.scancode == Keyboard::Scancode::Escape) {
                     window.close();
                     return;
                 }
@@ -30,7 +30,7 @@ void Engine::input() {
             
             // Game Over input handling
             if (currentGameState == GameState::GAMEOVER) {
-                if (e.scancode == sf::Keyboard::Scancode::Enter) {
+                if (e.scancode == Keyboard::Scancode::Enter) {
                     startGame();
                     return;
                 }
@@ -38,13 +38,13 @@ void Engine::input() {
 
             // Level Success input handling
             if (currentGameState == GameState::LEVEL_SUCCESS) {
-                if (e.scancode == sf::Keyboard::Scancode::Enter) {
+                if (e.scancode == Keyboard::Scancode::Enter) {
                     // Continue to next level
                     beginNextLevel();
                     currentGameState = GameState::RUNNING;
                     return;
                 }
-                if (e.scancode == sf::Keyboard::Scancode::Escape) {
+                if (e.scancode == Keyboard::Scancode::Escape) {
                     currentGameState = GameState::MENU;
                     return;
                 }
@@ -52,7 +52,7 @@ void Engine::input() {
 
             // General game controls
             switch (e.scancode) {
-                case sf::Keyboard::Scancode::Escape:
+                case Keyboard::Scancode::Escape:
                     if (currentGameState == GameState::RUNNING) {
                         currentGameState = GameState::MENU; // Return to menu
                     } else {
@@ -60,31 +60,31 @@ void Engine::input() {
                     }
                     return;
 
-                case sf::Keyboard::Scancode::P:
+                case Keyboard::Scancode::P:
                     if (currentGameState == GameState::RUNNING || currentGameState == GameState::PAUSED) {
                         togglePause();
                     }
                     break;
 
-                case sf::Keyboard::Scancode::Up:
+                case Keyboard::Scancode::Up:
                     if (currentGameState == GameState::RUNNING) {
                         addDirection(Direction::UP);
                     }
                     break;
 
-                case sf::Keyboard::Scancode::Down:
+                case Keyboard::Scancode::Down:
                     if (currentGameState == GameState::RUNNING) {
                         addDirection(Direction::DOWN);
                     }
                     break;
 
-                case sf::Keyboard::Scancode::Left:
+                case Keyboard::Scancode::Left:
                     if (currentGameState == GameState::RUNNING) {
                         addDirection(Direction::LEFT);
                     }
                     break;
 
-                case sf::Keyboard::Scancode::Right:
+                case Keyboard::Scancode::Right:
                     if (currentGameState == GameState::RUNNING) {
                         addDirection(Direction::RIGHT);
                     }

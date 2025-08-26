@@ -1,7 +1,5 @@
 #include "engine.hpp"
 
-// initial snake created at the start
-
 void Engine::newSnake() {
     snake.clear();
     // Head: right

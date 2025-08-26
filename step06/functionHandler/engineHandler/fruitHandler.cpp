@@ -3,9 +3,7 @@
 void Engine::moveFruit(){
     // find a location to place the fruit
     // must not be inside the snake, or the wall
-
-    // Use the map size instead of the window size
-    sf::Vector2f fruitResolution(
+    Vector2f fruitResolution(
     static_cast<float>(mapSize.x) - 2.f,  // -2 to avoid the borders
         static_cast<float>(mapSize.y) - 2.f
     );
@@ -14,16 +12,16 @@ void Engine::moveFruit(){
     srand(time(nullptr));
     do {
         badLocation = false;
-    // Generate a random position in the whole map
+        // Generate a random position in the whole map
         newFruitLocation.x = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)fruitResolution.x)) * 20;
         newFruitLocation.y = (float)(1 + rand() / ((RAND_MAX + 1u) / (int)fruitResolution.y)) * 20;
 
-        const sf::FloatRect fruitRect({newFruitLocation.x, newFruitLocation.y},
+        const FloatRect fruitRect({newFruitLocation.x, newFruitLocation.y},
                                     {20.f, 20.f});
 
         // Check if it is in the snake
         for(auto & s : snake){
-            const sf::FloatRect snakeBounds = s.getSprite().getGlobalBounds();
+            const FloatRect snakeBounds = s.getSprite().getGlobalBounds();
         
             if(snakeBounds.findIntersection(fruitRect)){
                 badLocation = true;
