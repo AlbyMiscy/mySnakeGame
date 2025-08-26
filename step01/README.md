@@ -176,7 +176,7 @@ cmake --build build -j
 
 ### Modalità Debug (opzionale)
 ```bash
-# Per compilazione debug con simboli
+# Per compilazione debug
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build -j
 ./build/step01

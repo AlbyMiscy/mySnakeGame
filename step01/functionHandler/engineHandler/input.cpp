@@ -8,19 +8,19 @@ void Engine::input(){
             [this](const sf::Event::KeyPressed& e) {
                 switch (e.scancode)
                 {
-                case sf::Keyboard::Scancode::Escape:
+                case Keyboard::Scancode::Escape:
                     window.close();
                     return;
-                case sf::Keyboard::Scancode::Up:
+                case Keyboard::Scancode::Up:
                     addDirection(Direction::UP);
                     break; 
-                case sf::Keyboard::Scancode::Down:
+                case Keyboard::Scancode::Down:
                     addDirection(Direction::DOWN);
                     break; 
-                case sf::Keyboard::Scancode::Left:
+                case Keyboard::Scancode::Left:
                     addDirection(Direction::LEFT);
                     break; 
-                case sf::Keyboard::Scancode::Right:
+                case Keyboard::Scancode::Right:
                     addDirection(Direction::RIGHT);
                     break; 
                 default:
