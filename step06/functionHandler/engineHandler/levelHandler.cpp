@@ -1,7 +1,4 @@
 #include "engine.hpp"
-#include <iostream>
-
-using namespace std;
 
 void Engine::checkLevelFiles(){
     ifstream levelsManifest("resources/levels/levels.txt");
@@ -42,33 +39,33 @@ void Engine::loadLevel(int levelNumber){
     const auto size = img.getSize(); 
     mapSize = size; 
 
-    const sf::Color BLACK  = sf::Color(0, 0, 0);
-    const sf::Color RED    = sf::Color(255, 0, 0);
-    const sf::Color YELLOW = sf::Color(255,255,0);
-    const sf::Color GREEN  = sf::Color(0,255,0);
+    const Color BLACK  = Color(0, 0, 0);
+    const Color RED    = Color(255, 0, 0);
+    const Color YELLOW = Color(255,255,0);
+    const Color GREEN  = Color(0,255,0);
 
     constexpr float TILE = 20.f;
 
-    std::vector<sf::Vector2u> patrolA, patrolB;
+    vector<Vector2u> patrolA, patrolB;
 
     for (unsigned y = 0; y < size.y; ++y) {
         for (unsigned x = 0; x < size.x; ++x) {
-            const sf::Color c = img.getPixel({x, y});
-            sf::Vector2f pos(x * TILE, y * TILE);
+            const Color c = img.getPixel({x, y});
+            Vector2f pos(x * TILE, y * TILE);
             if (c == BLACK) {
                 wallSection.emplace_back(Wall(pos, {TILE, TILE}));
             } else if (c == RED) {
                 snakeStartPosition = pos;
             } else if (c == YELLOW) {
-                patrolA.emplace_back(sf::Vector2u{x, y});
+                patrolA.emplace_back(Vector2u{x, y});
             } else if (c == GREEN) {
-                patrolB.emplace_back(sf::Vector2u{x, y});
+                patrolB.emplace_back(Vector2u{x, y});
             }
         }
     }
 
     // Simple pairing: in collection order
-    size_t n = std::min(patrolA.size(), patrolB.size());
+    size_t n = min(patrolA.size(), patrolB.size());
     enemies.clear();
     for(size_t i=0;i<n;++i){
         Enemy::TextureType type = (i % 2 == 0) ? Enemy::TextureType::Enemy1 : Enemy::TextureType::Enemy2;

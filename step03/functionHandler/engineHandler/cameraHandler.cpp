@@ -24,7 +24,7 @@ void Engine::updateCamera() {
         Vector2f currentCenter = camera.getCenter();
         Vector2f targetCenter = centerPosition;
         
-        float smoothFactor = 0.08f;  // Più basso = più fluido
+        float smoothFactor = 0.08f;  
         Vector2f newCenter = currentCenter + (targetCenter - currentCenter) * smoothFactor;
         
         float halfWidth = WINDOW_WIDTH / 2.0f;
@@ -33,8 +33,8 @@ void Engine::updateCamera() {
         float mapWidthPixels = mapSize.x * 20.0f;
         float mapHeightPixels = mapSize.y * 20.0f;
         
-        newCenter.x = std::max(halfWidth, std::min(newCenter.x, mapWidthPixels - halfWidth));
-        newCenter.y = std::max(halfHeight, std::min(newCenter.y, mapHeightPixels - halfHeight));
+        newCenter.x = max(halfWidth, min(newCenter.x, mapWidthPixels - halfWidth));
+        newCenter.y =  max(halfHeight,  min(newCenter.y, mapHeightPixels - halfHeight));
         
         camera.setCenter(newCenter);
         window.setView(camera);

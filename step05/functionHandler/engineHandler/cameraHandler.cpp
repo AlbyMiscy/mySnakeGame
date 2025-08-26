@@ -1,7 +1,7 @@
 #include "engine.hpp"
 
 void Engine::initializeCamera() {
-    // Imposta la camera in base alla dimensione attuale della finestra
+    // Set the camera based on the current window size
     Vector2f winSize(window.getSize());
     camera.setSize(winSize);
     if (!snake.empty()) {

@@ -1,16 +1,12 @@
 #include "wall.hpp"
-#include <iostream>
 
-using namespace std;
-
-// Definizione delle variabili statiche
 Texture Wall::wallTexture;
 bool Wall::textureLoaded = false;
 
 void Wall::loadWallTexture() {
     if (!textureLoaded) {
         if (!wallTexture.loadFromFile("resources/texture/wall.png")) {
-            // Texture non disponibile, useremo il colore di default
+            // Texture not available, we will use the default color
         }
         textureLoaded = true;
     }

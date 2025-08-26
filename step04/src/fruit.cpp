@@ -9,7 +9,7 @@ Fruit::Fruit() : gen(rd()), dis(0, 2) {
     loadTexture();
     
     // Create sprite with the loaded texture
-    sprite = std::make_unique<Sprite>(texture);
+    sprite =  make_unique<Sprite>(texture);
     
     Vector2f startPosition(400, 300);
     sprite->setPosition(startPosition);
@@ -21,7 +21,7 @@ Fruit::Fruit() : gen(rd()), dis(0, 2) {
 void Fruit::loadTexture() {
     if (!textureLoaded) {
         if (!texture.loadFromFile("resources/texture/fruit.png")) {
-            std::cerr << "Error: Could not load fruit texture!" << std::endl;
+             cerr << "Error: Could not load fruit texture!" <<  endl;
             return;
         }
         textureLoaded = true;

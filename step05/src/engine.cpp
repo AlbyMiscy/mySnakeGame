@@ -10,7 +10,7 @@ Engine::Engine() : mainFont([]() {
     return f; 
 }()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont), pauseTitle(mainFont), pauseInstruction1(mainFont), pauseInstruction2(mainFont),
       successTitle(mainFont), successInstruction1(mainFont), successInstruction2(mainFont), arrowSprite(arrowTexture), currentArrowFrame(0), arrowAnimationTimer(Time::Zero) {
-    window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
+    window.create( VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake",  Style::Default);
     window.setFramerateLimit(FPS);
     window.setVerticalSyncEnabled(true); // Enable VSync to reduce tearing/glitches
     maxLevels = 0;

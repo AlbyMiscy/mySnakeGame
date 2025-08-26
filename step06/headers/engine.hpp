@@ -88,25 +88,25 @@ private:
         // Snake start position from level
         Vector2f snakeStartPosition;
     
-        // Map dimensions
-        Vector2u mapSize; // Dimensioni della mappa in pixel
+        // Map dimensions (pixel)
+        Vector2u mapSize;
 
         Time timeSinceLastMove;
 
         int currentGameState; 
         int lastGameState;
 
-        // --- Enemy/Pathfinding ---
-        std::vector<Enemy> enemies;
+        // Enemy/Pathfinding 
+        vector<Enemy> enemies;
         struct MyGrid : GridProvider {
             const Engine* e;
             MyGrid(const Engine* eng) : e(eng) {}
-            bool isBlocked(sf::Vector2u t) const override { return e->isBlocked(t); }
-            sf::Vector2u size() const override { return e->mapSize; }
+            bool isBlocked(Vector2u t) const override { return e->isBlocked(t); }
+            Vector2u size() const override { return e->mapSize; }
         };
 
 public:
-    bool isBlocked(sf::Vector2u t) const;
+    bool isBlocked( Vector2u t) const;
     void updateEnemies(float dt);
     void drawEnemies();
     enum Direction { UP, RIGHT, DOWN, LEFT };

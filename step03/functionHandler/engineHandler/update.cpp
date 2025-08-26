@@ -77,7 +77,7 @@ void Engine::update(){
         if(snake[0].getShape().getGlobalBounds().findIntersection(fruit.getSprite().getGlobalBounds())){
             fruitEatenThisLevel += 1;
             fruitEatenTotal += 1;
-            updateTextContent(); // Aggiorna il contenuto dei testi
+            updateTextContent(); // Update texts contexts
 
             sectionToAdd += 4;
             speed++;

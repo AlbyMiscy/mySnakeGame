@@ -55,8 +55,8 @@ private:
     // Snake start position from level
     Vector2f snakeStartPosition;
     
-    // Map dimensions
-    Vector2u mapSize; // Dimensioni della mappa in pixel
+    // Map dimensions (pixel)
+    Vector2u mapSize; 
 
     Time timeSinceLastMove;
 
@@ -93,7 +93,7 @@ public:
     void setupText(Text *textItem, const Font &font, const string &value, int size, Color color);
     void fixText();
     void updateTextPosition(); 
-    void updateTextContent(); // Aggiorna il contenuto dei testi con i valori correnti
+    void updateTextContent(); // Update the text contents with the current values
 
     // main loop
     void run();

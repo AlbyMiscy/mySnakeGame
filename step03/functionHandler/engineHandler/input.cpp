@@ -2,39 +2,39 @@
 
 void Engine::input() {
     window.handleEvents(
-        [this](const sf::Event::Closed&) {
+        [this](const  Event::Closed&) {
             window.close();
         },
 
-        [this](const sf::Event::KeyPressed& e) {
+        [this](const  Event::KeyPressed& e) {
             if (currentGameState == GameState::GAMEOVER) {
-                if (e.scancode == sf::Keyboard::Scancode::Enter) {
+                if (e.scancode ==  Keyboard::Scancode::Enter) {
                     startGame();
                 }
             }
 
             switch (e.scancode) {
-                case sf::Keyboard::Scancode::Escape:
+                case  Keyboard::Scancode::Escape:
                     window.close();
                     return;
 
-                case sf::Keyboard::Scancode::P:
+                case  Keyboard::Scancode::P:
                     togglePause();
                     break;
 
-                case sf::Keyboard::Scancode::Up:
+                case  Keyboard::Scancode::Up:
                     addDirection(Direction::UP);
                     break;
 
-                case sf::Keyboard::Scancode::Down:
+                case  Keyboard::Scancode::Down:
                     addDirection(Direction::DOWN);
                     break;
 
-                case sf::Keyboard::Scancode::Left:
+                case  Keyboard::Scancode::Left:
                     addDirection(Direction::LEFT);
                     break;
 
-                case sf::Keyboard::Scancode::Right:
+                case  Keyboard::Scancode::Right:
                     addDirection(Direction::RIGHT);
                     break;
 

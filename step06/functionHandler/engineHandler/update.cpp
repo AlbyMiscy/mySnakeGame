@@ -68,7 +68,7 @@ void Engine::update(){
         for(int s = 1; s < snake.size(); s++){
             thisSectionPosition = snake[s].getPosition();
             // Determine direction for this body segment
-            sf::Vector2f delta = lastSectionPosition - thisSectionPosition;
+            Vector2f delta = lastSectionPosition - thisSectionPosition;
             Snake::Direction bodyDir = Snake::RIGHT;
             if (delta.x > 0) bodyDir = Snake::RIGHT;
             else if (delta.x < 0) bodyDir = Snake::LEFT;

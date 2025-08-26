@@ -1,5 +1,4 @@
 #include "engine.hpp"
-#include <cmath>
 
 void Engine::setupDirectionArrow() {
     // Load the arrow texture

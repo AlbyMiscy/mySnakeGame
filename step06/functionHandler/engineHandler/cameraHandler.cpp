@@ -26,8 +26,8 @@ void Engine::updateCamera() {
         float halfHeight = camSize.y / 2.0f;
         float mapWidthPixels = mapSize.x * 20.0f;
         float mapHeightPixels = mapSize.y * 20.0f;
-        newCenter.x = std::max(halfWidth, std::min(newCenter.x, mapWidthPixels - halfWidth));
-        newCenter.y = std::max(halfHeight, std::min(newCenter.y, mapHeightPixels - halfHeight));
+        newCenter.x = max(halfWidth, min(newCenter.x, mapWidthPixels - halfWidth));
+        newCenter.y = max(halfHeight, min(newCenter.y, mapHeightPixels - halfHeight));
         camera.setCenter(newCenter);
         window.setView(camera);
         updateTextPosition();

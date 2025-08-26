@@ -1,7 +1,4 @@
 #include "engine.hpp"
-#include <iostream>
-
-using namespace std;
 
 void Engine::checkLevelFiles(){
     ifstream levelsManifest("resources/levels/levels.txt");
@@ -22,7 +19,7 @@ void Engine::checkLevelFiles(){
 }
 
 void Engine::loadLevel(int levelNumber){
-    // Controllo bounds per evitare segmentation fault
+    // Bounds check to avoid segmentation fault
     if (levelNumber < 1 || levelNumber > (int)levels.size()) {
         cout << "Errore: levelNumber fuori dai limiti. levelNumber=" << levelNumber 
              << ", levels.size()=" << levels.size() << endl;
@@ -42,16 +39,16 @@ void Engine::loadLevel(int levelNumber){
     const auto size = img.getSize(); 
     mapSize = size; 
     
-    const sf::Color BLACK  = sf::Color(0, 0, 0);
-    const sf::Color RED    = sf::Color(255, 0, 0);
-    const sf::Color BLUE   = sf::Color(0, 0, 255);
+    const Color BLACK  = Color(0, 0, 0);
+    const Color RED    = Color(255, 0, 0);
+    const Color BLUE   = Color(0, 0, 255);
 
     constexpr float TILE = 20.f;
 
     for (unsigned y = 0; y < size.y; ++y) {
         for (unsigned x = 0; x < size.x; ++x) {
-            const sf::Color c = img.getPixel({x, y});
-            sf::Vector2f pos(x * TILE, y * TILE);
+            const Color c = img.getPixel({x, y});
+            Vector2f pos(x * TILE, y * TILE);
             if (c == BLACK) {
                 wallSection.emplace_back(Wall(pos, {TILE, TILE}));
             } else if (c == RED) {
