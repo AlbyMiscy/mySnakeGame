@@ -65,8 +65,16 @@ step05/
 - **P**: Pausa/Resume
 
 ## 🏗️ Build ed esecuzione
+### Build Standard
 ```bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+# Configurazione (genera anche compile_commands.json per VS Code)
+cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+# Compilazione con copia automatica resources/
 cmake --build build -j
-./build/step05
+
+# Esecuzione - ENTRAMBI i modi funzionano!
+./step05                # Dalla directory build/
+# OPPURE  
+./build/step05          # Dalla directory principale
 ```
