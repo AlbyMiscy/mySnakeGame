@@ -3,7 +3,7 @@
 const Time Engine::TimePerFrame = seconds(1.f/60.f);
 
 Engine::Engine(){
-    window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", Style::Default);
+    window.create(VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", Style::Default);
     window.setFramerateLimit(FPS);
     maxLevels = 0;
     checkLevelFiles();

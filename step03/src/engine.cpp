@@ -5,11 +5,11 @@ const Time Engine::TimePerFrame = seconds(1.f/60.f);
 Engine::Engine() : mainFont([]() { 
     Font f; 
     if (!f.openFromFile("resources/fonts/A_Goblin_Appears.otf")) {
-        std::cerr << "Warning: Could not load custom font, using default" << std::endl;
+        cerr << "Warning: Could not load custom font, using default" << endl;
     }
     return f; 
 }()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont) {
-    window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
+    window.create(VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", Style::Default);
     window.setFramerateLimit(FPS);
     maxLevels = 0;
     checkLevelFiles();
