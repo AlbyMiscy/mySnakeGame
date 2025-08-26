@@ -5,12 +5,12 @@ const Time Engine::TimePerFrame = seconds(1.f/60.f);
 Engine::Engine() : mainFont([]() { 
     Font f; 
     if (!f.openFromFile("resources/fonts/A_Goblin_Appears.otf")) {
-        std::cerr << "Warning: Could not load custom font, using default" << std::endl;
+         cerr << "Warning: Could not load custom font, using default" <<  endl;
     }
     return f; 
 }()), titleText(mainFont), currentLevelText(mainFont), fruitEatenText(mainFont), gameOver(mainFont), pressEnterText(mainFont), menuTitle(mainFont), playText(mainFont), quitText(mainFont), instructionsText(mainFont), pauseTitle(mainFont), pauseInstruction1(mainFont), pauseInstruction2(mainFont),
       successTitle(mainFont), successInstruction1(mainFont), successInstruction2(mainFont), arrowSprite(arrowTexture), currentArrowFrame(0), arrowAnimationTimer(Time::Zero) {
-    window.create(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake", sf::Style::Default);
+    window.create( VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Snake",  Style::Default);
     window.setFramerateLimit(FPS);
     window.setVerticalSyncEnabled(true); // Enable VSync to reduce tearing/glitches
     maxLevels = 0;

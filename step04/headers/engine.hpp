@@ -11,6 +11,7 @@
 #include <vector>
 #include <deque>
 #include <fstream>
+#include <cmath>
 
 using namespace sf;
 using namespace std;
@@ -85,8 +86,8 @@ private:
     // Snake start position from level
     Vector2f snakeStartPosition;
     
-    // Map dimensions
-    Vector2u mapSize; // Dimensioni della mappa in pixel
+    // Map dimensions (pixel)
+    Vector2u mapSize; 
 
     Time timeSinceLastMove;
 
