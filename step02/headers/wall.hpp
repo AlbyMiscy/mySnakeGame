@@ -2,7 +2,9 @@
 #define SNAKE_WALL_HPP
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
+using namespace std;
 using namespace sf;
 
 class Wall{
@@ -15,7 +17,7 @@ public:
     Wall(Vector2f position, Vector2f size);    
 
     RectangleShape getShape();
-    static void loadWallTexture(); // Metodo per caricare la texture una volta
+    static void loadWallTexture(); // Method to load the texture once
 };
 
 #endif // SNAKE_WALL_HPP

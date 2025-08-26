@@ -9,6 +9,7 @@
 #include <vector>
 #include <deque>
 #include <fstream>
+#include <algorithm> 
 
 using namespace sf;
 using namespace std;
@@ -20,7 +21,7 @@ class Engine {
 private:
     // Window
     RenderWindow window;
-    View camera;  // Telecamera per seguire lo snake
+    View camera;  // Camera to follow the snake
     const unsigned int FPS = 60;
     static const Time TimePerFrame;
    
@@ -45,8 +46,8 @@ private:
     // Snake start position from level
     Vector2f snakeStartPosition;
     
-    // Map dimensions
-    Vector2u mapSize; // Dimensioni della mappa in pixel
+    // Map dimensions (pixel)
+    Vector2u mapSize; 
 
     Time timeSinceLastMove;
 
@@ -75,8 +76,8 @@ public:
     void checkLevelFiles();
     void loadLevel(int levelNumber);
 
-    void updateCamera(); // Aggiorna la posizione della telecamera
-    void initializeCamera(); // Inizializza la telecamera
+    void updateCamera(); // Update the camera position
+    void initializeCamera(); // Initialize the camera
 
     void togglePause();
 
